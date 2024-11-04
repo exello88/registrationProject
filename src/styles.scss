@@ -3,7 +3,21 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 
-body{
+body {
     margin: 0;
     padding: 0;
+}
+
+.content-form__logo-img img {
+    width: 100px;
+    height: 45px;
+}
+
+.content-form__btn {
+    width: 100%;
+    margin-top: 5px;
+}
+
+input {
+    height: 45px;
 }

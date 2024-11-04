@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100..900&display=swap');
+@import '../../_variables.scss';
+
+
+.content {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+
+    &-form {
+        width: 50vw;
+        background-color: white;
+        border-radius: 15px;
+        padding: 15px 30px;
+
+        p {
+            font-family: 'Roboto Flex', sans-serif;
+        }
+
+
+        &__logo {
+            display: flex;
+            justify-content: center;
+        }
+
+        &__title {
+            font-size: 30px;
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        &__input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        &-options {
+            display: flex;
+
+            &__remember {
+                margin-left: 10px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            &__forgot {
+                margin-left: auto;
+                color: $text-with-link-color;
+                cursor: pointer;
+            }
+        }
+
+        &__partnership,
+        &__partnership-link {
+            font-size: 15px;
+            margin-top: 20px;
+            margin-bottom: 0;
+            color: $subtext-color;
+        }
+
+        &__partnership-link {
+            margin-top: 5px;
+            color: $text-with-link-color;
+            cursor: pointer;
+        }
+    }
+}
+
+
+
+@media (max-width: 1024px) {
+    .content-form  {
+        width: 70vw;
+
+    }
+}
+
+@media (max-width: 768px) {
+    .content-form  {
+        width: 75vw;
+
+    }
+}
+
+@media (max-width: 600px) {
+    .content-form {
+        width: 90vw;
+        padding: 10px 15px;
+
+        &-title {
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        &-options__remember-me {
+            margin-left: 5px;
+        }
+
+        &-partnership {
+            margin-top: 10px;
+        }
+
+        &-partnership-link {
+            margin-top: 2px;
+        }
+    }
+}
+
+@media (max-width: 425px) {
+    .content-form  {
+        width: 100vw;
+        padding: 5px 10px;
+    }
+}
