@@ -1,15 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100..900&display=swap');
 @import '../../_variables.scss';
 
 
 
 .content {
+    width: 100vw;
     height: 100vh;
     display: grid;
     place-items: center;
+    background-image: url('../../../assets/background.jpg');
+    background-size: cover;
+    background-position: center;
+    position: absolute; 
+    z-index: -1;
 
     &-form {
-        width: 50vw;
+        width: 35vw;
         background-color: white;
         border-radius: 15px;
         padding: 15px 30px;
@@ -24,7 +29,7 @@
         }
 
         &__title {
-            font-size: 25px;
+            font-size: 20px;
             text-align: center;
             margin-top: 50px;
             margin-bottom: 15px;
@@ -66,14 +71,14 @@
 
 @media (max-width: 1024px) {
     .content-form  {
-        width: 70vw;
+        width: 50vw;
 
     }
 }
 
 @media (max-width: 768px) {
     .content-form  {
-        width: 75vw;
+        width: 60vw;
 
     }
 }
