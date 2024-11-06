@@ -1,0 +1,25 @@
+<div class="content">
+    <div class="content-form">
+        <div class="content-form__logo">
+            <p-image src="assets/logo.png" styleClass="content-form__logo-img"></p-image>
+        </div>
+
+        <p class="content-form__title">Войдите в личный кабинет</p>
+
+        <div class="content-form__input-field">
+            <input type="text" pInputText placeholder="Введите почту" />
+            <input type="text" pInputText placeholder="Введите пароль" />
+        </div>
+
+        <div class="content-form-options">
+            <p-checkbox [binary]="true" [(ngModel)]="rememberMe"></p-checkbox>
+            <p class="content-form-options__remember" (click)="changeRememberMe()">Запомнить меня</p>
+            <p class="content-form-options__forgot">забыли пароль?</p>
+        </div>
+
+        <p-button label="Войти" styleClass="content-form__btn"></p-button>
+
+        <p class="content-form__partnership">Хотите стать нашим партнёром?</p>
+        <p class="content-form__partnership-link">Подайте заявку</p>
+    </div>
+</div>
