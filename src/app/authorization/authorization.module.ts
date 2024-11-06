@@ -8,6 +8,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -17,6 +18,7 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
     SignUpComponent
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
     CommonModule,
     AuthenticationRoutingModule,

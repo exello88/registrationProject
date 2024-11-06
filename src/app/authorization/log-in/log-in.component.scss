@@ -59,6 +59,34 @@
             }
         }
 
+        &__login-with-title{
+            font-size: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        &-login-methods{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+
+            &-method{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 7px 0;
+                border: 2px solid $border-color;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+
+            &-method img{
+                width: 30px;
+            }
+        }
+
         &__partnership,
         &__partnership-link {
             font-size: 15px;
