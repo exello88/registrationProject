@@ -8,7 +8,9 @@ import { Component } from '@angular/core';
 export class LogInComponent {
   public rememberMe: boolean = false;
 
-  public changeRememberMe() : void{
+  public changeRememberMe(): void {
     this.rememberMe = !this.rememberMe;
   }
 }
+
+

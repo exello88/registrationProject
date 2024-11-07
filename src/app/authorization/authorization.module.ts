@@ -8,15 +8,19 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginWithComponent } from './login-with/login-with.component';
 
 
 
 @NgModule({
   declarations: [
     LogInComponent,
-    SignUpComponent
+    SignUpComponent,
+    LoginWithComponent
   ],
   imports: [
+    HttpClientModule,
     FormsModule,
     CommonModule,
     AuthenticationRoutingModule,
