@@ -7,13 +7,13 @@ interface OAuth {
 export const VKAuth: OAuth = {
     appId: '52624512',
     appSecret: 'Zb2BcO62aJTjOZwXUjrX',
-    redirectUri: 'https://statisticsusers.web.app/pages/page'
+    redirectUri: 'https://statisticsusers.web.app/user'
 }
 
 export const OKAuth: OAuth = {
     appId: '512002120657',
     appSecret: 'CCNMFFLGDIHBABABA',
-    redirectUri: 'https://statisticsusers.web.app/pages/page'
+    redirectUri: 'https://statisticsusers.web.app/user'
 }
 
 export const AuthSource = {

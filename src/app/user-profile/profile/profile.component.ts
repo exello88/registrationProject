@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthSource } from 'src/app/environments';
 
 @Component({
-  selector: 'app-page',
-  templateUrl: './page.component.html',
-  styleUrls: ['./page.component.scss']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
-export class PageComponent implements OnInit {
+export class ProfileComponent {
   private token!: string;
   private userID!: string;
 
@@ -54,4 +54,3 @@ export class PageComponent implements OnInit {
     }
   }
 }
-
