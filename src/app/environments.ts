@@ -21,6 +21,45 @@ export const AuthSource = {
     ok: 'ok'
 }
 
+export const sidebarItems = [
+    {
+        imgClass: 'pi-user',
+        text: 'Моя страница'
+    },
+    {
+        imgClass: 'pi-globe',
+        text: 'Новости'
+    },
+    {
+        imgClass: 'pi-envelope',
+        text: 'Мессенджер'
+    },
+    {
+        imgClass: 'pi-phone',
+        text: 'Звонки'
+    },
+    {
+        imgClass: 'pi-users',
+        text: 'Друзья'
+    },
+    {
+        imgClass: 'pi-id-card',
+        text: 'Сообщества'
+    },
+    {
+        imgClass: 'pi-image',
+        text: 'Фотографии'
+    },
+    {
+        imgClass: 'pi-play',
+        text: 'Музыка'
+    },
+    {
+        imgClass: 'pi-video',
+        text: 'Видео'
+    }
+];
+
 export const getLinksForLogin = (source: OAuth, sourceName: string): string => {
     return `client_id=${source.appId}&redirect_uri=${source.redirectUri + `?source=${sourceName}`}&scope=friends&v=5.199`;
 };

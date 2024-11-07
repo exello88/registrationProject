@@ -2,10 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@100..900&display=swap');
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
 
 body {
     margin: 0;
     padding: 0;
+}
+
+p {
+    font-family: 'Roboto Flex', sans-serif;
+}
+
+input {
+    height: 45px;
 }
 
 .content-form__logo-img img {
@@ -18,6 +27,8 @@ body {
     margin-top: 5px;
 }
 
-input {
-    height: 45px;
+@media (max-width: 650px) {
+    .header-options__input {
+        display: none;
+    }
 }

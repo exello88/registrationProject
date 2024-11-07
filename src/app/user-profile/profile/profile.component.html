@@ -1,1 +1,4 @@
-<p>profile works!</p>
+<app-header (ActiveSidebarEmit)="changeActiveSidebar($event)"></app-header>
+<div class="profile">
+    <app-sidebar [activeSidebar]="activeSidebar"></app-sidebar>
+</div>

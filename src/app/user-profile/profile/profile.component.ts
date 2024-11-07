@@ -10,12 +10,17 @@ import { AuthSource } from 'src/app/environments';
 export class ProfileComponent {
   private token!: string;
   private userID!: string;
+  public activeSidebar = false;
 
 
   constructor(private router: Router) { };
 
   ngOnInit() {
-    this.initialURL();
+    //this.initialURL();
+  }
+
+  public changeActiveSidebar(status: boolean) : void {
+      this.activeSidebar = status;
   }
 
   private initialURL(): void {
