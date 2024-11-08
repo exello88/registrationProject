@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { sidebarItems } from 'src/app/environments';
+import { Component, Input, OnInit } from '@angular/core';
+import { ISidebarItem, MenuService } from '../menu.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,11 +8,11 @@ import { sidebarItems } from 'src/app/environments';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  public sidebarItems = sidebarItems;
+  public sidebarItems : ISidebarItem[] = this.menuService.sidebarItems;
   public smallScreen!: boolean;
   @Input() activeSidebar: boolean = false;
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver, private menuService : MenuService) { }
 
   ngOnInit() {
     if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {

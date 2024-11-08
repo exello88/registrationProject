@@ -1,26 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthSource } from 'src/app/environments';
+import { AuthSource } from 'src/app/enum';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   private token!: string;
   private userID!: string;
-  public activeSidebar = false;
+  public activeSidebar: boolean = false;
 
 
   constructor(private router: Router) { };
 
   ngOnInit() {
-    //this.initialURL();
+    this.initialURL();
   }
 
-  public changeActiveSidebar(status: boolean) : void {
-      this.activeSidebar = status;
+  public changeActiveSidebar(status: boolean): void {
+    this.activeSidebar = status;
   }
 
   private initialURL(): void {

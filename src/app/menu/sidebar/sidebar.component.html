@@ -1,6 +1,7 @@
 <div class="blur-for-mobile" *ngIf="smallScreen && activeSidebar"></div>
 
-<div class="sidebar" [class.sidebar-active-for-mobile]="smallScreen" *ngIf = "(smallScreen && activeSidebar) || !smallScreen">
+<div class="sidebar" [class.sidebar-active-for-mobile]="smallScreen"
+    *ngIf="(smallScreen && activeSidebar) || !smallScreen">
     <div class="sidebar-item" *ngFor="let item of sidebarItems">
         <p class="pi" [ngClass]="item.imgClass"></p>
         <p class="sidebar-item__text">{{ item.text }}</p>

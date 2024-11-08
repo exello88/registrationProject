@@ -9,14 +9,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class HeaderComponent {
   private activeSidebar = false;
 
-  @Output() ActiveSidebarEmit = new EventEmitter<boolean>();
+  @Output() activeSidebarEmit = new EventEmitter<boolean>();
 
   constructor(private breakpointObserver: BreakpointObserver) { }
 
   public changeActiveSidebar(): void {
     if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
       this.activeSidebar = !this.activeSidebar;
-      this.ActiveSidebarEmit.emit(this.activeSidebar);
+      this.activeSidebarEmit.emit(this.activeSidebar);
     }
   }
 }
