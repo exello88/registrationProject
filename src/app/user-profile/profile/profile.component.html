@@ -1,4 +1,31 @@
 <app-header (activeSidebarEmit)="changeActiveSidebar($event)"></app-header>
-<div class="profile">
-    <app-sidebar [activeSidebar]="activeSidebar"></app-sidebar>
+<div class="profile" >
+    <app-sidebar [activeSidebar]="activeSidebar" (activeSidebar) = "changeActiveSidebar(false)"></app-sidebar>
+
+    <div class="profile-field">
+        <div class="profile-field-header" *ngIf="userInfo">
+            <div class="profile-field-header__photo">
+                <img src="{{userInfo.photo}}" alt="">
+            </div>
+
+            <div class="profile-field-header__user-info">
+                <p class="profile-field-header__user-info__name">{{userInfo.name}}</p>
+                <p class="profile-field-header__user-info__status">{{userInfo.status}}</p>
+                <div class="profile-field-header__user-info-details">
+                    <p class="pi pi-map" *ngIf="userInfo.city!==''"></p>
+                    <p class="profile-field-header__user-info-details__title" *ngIf="userInfo.city!==''">
+                        {{userInfo.city}}</p>
+                    <p class="pi pi-book" *ngIf="userInfo.education!==''"></p>
+                    <p class="profile-field-header__user-info-details__title" *ngIf="userInfo.education!==''">
+                        {{userInfo.education}}</p>
+                    <p class="pi pi-plus"></p>
+                    <p class="profile-field-header__user-info-details__title profile-field-header__user-info-details__more"
+                        (click)="changeActiveMoreInfo()">
+                        Подробнее</p>
+                    <app-profile-info (moreInfoActive)="moreInfoActiveEmit()" [token]="token" [userInfo]="userInfo"
+                        *ngIf="moreInfoActive"></app-profile-info>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

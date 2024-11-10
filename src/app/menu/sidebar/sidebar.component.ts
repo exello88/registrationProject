@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { ISidebarItem, MenuService } from '../menu.service';
 
 @Component({
@@ -18,5 +18,9 @@ export class SidebarComponent implements OnInit {
     if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
       this.smallScreen = true;
     }
+  }
+
+  public changeSidebarActive(){
+    this.activeSidebar = false;
   }
 }

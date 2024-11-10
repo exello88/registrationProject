@@ -2,9 +2,10 @@
 
 .sidebar {
     width: calc(10vw + 200px);
-    height: auto;
+    height: calc(100vh - 50px);
     position: relative;
     padding-left: 10vw;
+    background-color: white;
     z-index: 2;
 
     &-item {
@@ -53,5 +54,6 @@
     .sidebar {
         padding: 0;
         width: 200px;
+        position: absolute;
     }
 }

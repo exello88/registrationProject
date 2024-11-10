@@ -1,26 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthSource } from 'src/app/enum';
+import { IUserInfo, ProfileService } from '../profile.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
-  private token!: string;
-  private userID!: string;
+export class ProfileComponent implements OnInit, OnDestroy {
+  public token!: string;
   public activeSidebar: boolean = false;
+  public moreInfoActive: boolean = false;
+  public userInfo!: IUserInfo;
 
+  private userID!: string;
+  private subscriptions!: Subscription;
 
-  constructor(private router: Router) { };
+  constructor(private router: Router, private http: HttpClient, private profileSevice: ProfileService) { };
 
   ngOnInit() {
     this.initialURL();
+  };
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   public changeActiveSidebar(status: boolean): void {
     this.activeSidebar = status;
+  }
+
+  public moreInfoActiveEmit(): void {
+    this.moreInfoActive = false;
+  }
+
+  public changeActiveMoreInfo(): void {
+    this.moreInfoActive = true;
   }
 
   private initialURL(): void {
@@ -50,8 +68,13 @@ export class ProfileComponent implements OnInit {
     if (vkToken && vkUserID) {
       this.token = vkToken;
       this.userID = vkUserID;
+
+      this.subscriptions = this.profileSevice.getUserData(this.userID, this.token).subscribe((userInfo: IUserInfo) => {
+        this.userInfo = userInfo;
+      });
     }
   }
+
   private getTokenOK(params: URLSearchParams): void {
     let okToken = params.get('code');
     if (okToken) {
