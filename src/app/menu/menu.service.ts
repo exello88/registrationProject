@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface ISidebarItem {
       imgClass: string,
@@ -47,6 +48,15 @@ export class MenuService {
       text: 'Видео'
     }
   ];
+  private activeSidebar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   
   constructor() { }
+
+  public setSidebarActivities(status: boolean) : void {
+    this.activeSidebar.next(status);
+  }
+
+  public getSidebarActivities() : Observable<boolean> {
+    return this.activeSidebar.asObservable();
+  }
 }

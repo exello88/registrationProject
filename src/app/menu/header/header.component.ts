@@ -1,22 +1,33 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { MenuService } from '../menu.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   private activeSidebar = false;
+  private subscriptions!: Subscription;
 
-  @Output() activeSidebarEmit = new EventEmitter<boolean>();
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver, private menuService: MenuService) { }
+
+  ngOnInit() {
+    this.subscriptions = this.menuService.getSidebarActivities().subscribe((status) => {
+      this.activeSidebar = status;
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
   public changeActiveSidebar(): void {
     if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
-      this.activeSidebar = !this.activeSidebar;
-      this.activeSidebarEmit.emit(this.activeSidebar);
+      this.menuService.setSidebarActivities(!this.activeSidebar);
     }
   }
 }

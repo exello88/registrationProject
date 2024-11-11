@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   public token!: string;
-  public activeSidebar: boolean = false;
   public moreInfoActive: boolean = false;
   public userInfo!: IUserInfo;
 
@@ -27,10 +26,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-  }
-
-  public changeActiveSidebar(status: boolean): void {
-    this.activeSidebar = status;
   }
 
   public moreInfoActiveEmit(): void {

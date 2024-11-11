@@ -1,26 +1,37 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ISidebarItem, MenuService } from '../menu.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
-  public sidebarItems : ISidebarItem[] = this.menuService.sidebarItems;
+export class SidebarComponent implements OnInit, OnDestroy {
+  public sidebarItems: ISidebarItem[] = this.menuService.sidebarItems;
   public smallScreen!: boolean;
-  @Input() activeSidebar: boolean = false;
+  public activeSidebar: boolean = false;
 
-  constructor(private breakpointObserver: BreakpointObserver, private menuService : MenuService) { }
+  private subscriptions!: Subscription;
+
+  constructor(private breakpointObserver: BreakpointObserver, private menuService: MenuService) { }
 
   ngOnInit() {
     if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
       this.smallScreen = true;
     }
+
+    this.subscriptions = this.menuService.getSidebarActivities().subscribe((status) => {
+      this.activeSidebar = status;
+    });
   }
 
-  public changeSidebarActive(){
-    this.activeSidebar = false;
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
+  public changeSidebarActive() {
+    this.menuService.setSidebarActivities(!this.activeSidebar);
   }
 }
