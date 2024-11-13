@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MenuService } from '../menu.service';
 
@@ -9,6 +9,8 @@ import { MenuService } from '../menu.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @Input() avaUrl!: string;
+
   private activeSidebar = false;
   private subscriptions!: Subscription;
 
@@ -16,7 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private breakpointObserver: BreakpointObserver, private menuService: MenuService) { }
 
   ngOnInit() {
-    this.subscriptions = this.menuService.getSidebarActivities().subscribe((status) => {
+    this.subscriptions = this.menuService.getSidebarActivities.subscribe((status) => {
       this.activeSidebar = status;
     });
   }
@@ -27,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public changeActiveSidebar(): void {
     if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
-      this.menuService.setSidebarActivities(!this.activeSidebar);
+      this.menuService.setSidebarActivities = !this.activeSidebar;;
     }
   }
 }

@@ -23,7 +23,8 @@
             align-items: center;
         }
 
-        &:hover {
+        &:hover,
+        &-active {
             background-color: #EDEEF0;
 
             .pi {
@@ -44,16 +45,32 @@
     z-index: 1;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .sidebar {
-        padding: 0 5vw;
+        padding-left: 5vw;
+        width: calc(5vw + 200px);
+    }
+}
+
+@media (max-width: 1044px) {
+    .sidebar {
+        width: calc(5vw + 150px);
+
+        &-item__text,
+        .pi {
+            font-size: 14px;
+        }
     }
 }
 
 @media (max-width: 768px) {
     .sidebar {
-        padding: 0;
-        width: 200px;
-        position: absolute;
+        width: 150px;
+        padding-left: 0;
+
+        &-item__text,
+        .pi {
+            font-size: 14px;
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 <div class="sidebar" [class.sidebar-active-for-mobile]="smallScreen"
     *ngIf="(smallScreen && activeSidebar) || !smallScreen" (click)="$event.stopPropagation()">
-    <div class="sidebar-item" *ngFor="let item of sidebarItems">
+    <div class="sidebar-item" *ngFor="let item of sidebarItems" [class.sidebar-item-active]="activePage === item.text">
         <p class="pi" [ngClass]="item.imgClass"></p>
         <p class="sidebar-item__text">{{ item.text }}</p>
     </div>

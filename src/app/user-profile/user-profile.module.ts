@@ -5,6 +5,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { MenuModule } from '../menu/menu.module';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -15,10 +18,13 @@ import { ProfileInfoComponent } from './profile/profile-info/profile-info.compon
   ],
   imports: [
     CommonModule,
+    FormsModule,
     HttpClientModule,
     HttpClientJsonpModule,
     userProfileRoutingModule,
-    MenuModule
+    MenuModule,
+    ButtonModule,
+    DropdownModule
   ]
 })
 export class UserProfileModule { }

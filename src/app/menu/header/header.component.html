@@ -9,7 +9,7 @@
         <span class="pi pi-video"></span>
     </div>
 
-    <div class="header-image" (click)="changeActiveSidebar()">
-        <img src="assets/testAva.png">
+    <div class="header-image" (click)="changeActiveSidebar()" *ngIf = "avaUrl">
+        <img src="{{avaUrl}}">
     </div>
 </div>

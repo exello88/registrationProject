@@ -5,6 +5,13 @@ import { AuthSource } from 'src/app/enum';
 import { IUserInfo, ProfileService } from '../profile.service';
 import { Subscription } from 'rxjs';
 
+const moreActions: { title: string, icon: string }[] = [
+  { title: 'Мои вопросы', icon: 'pi-comment' },
+  { title: 'Воспоминания', icon: 'pi-history' },
+  { title: 'Мои желания', icon: 'pi-heart' },
+  { title: 'Денежные переводы', icon: 'pi-id-card' }
+]
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -14,6 +21,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public token!: string;
   public moreInfoActive: boolean = false;
   public userInfo!: IUserInfo;
+  public friendsCount!: number;
+  public followersCount!: number;
+  public subscribeCount!: number;
+  public moreActions!: { title: string, icon: string }[];
+  public selectedAction: { title: string, icon: string } = { title: '', icon: '' };
 
   private userID!: string;
   private subscriptions!: Subscription;
@@ -66,6 +78,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
       this.subscriptions = this.profileSevice.getUserData(this.userID, this.token).subscribe((userInfo: IUserInfo) => {
         this.userInfo = userInfo;
+        this.moreActions = moreActions;
+
+        this.subscriptions = this.profileSevice.getUserActivities(this.userInfo.id, this.token).subscribe(count => {
+          this.friendsCount = count.friendsCount;
+          this.followersCount = count.followersCount;
+          this.subscribeCount = count.subscriptionsCount;
+        });
       });
     }
   }

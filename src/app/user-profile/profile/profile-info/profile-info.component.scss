@@ -1,7 +1,8 @@
 @import '../../../_variables.scss';
 
 .profile {
-    width: 100vw;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,32 +23,112 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         z-index: 3;
 
-        &-divide {
+        &-divide,
+        &-main-divide {
             width: 100%;
             height: 1px;
             border: 1px solid $border-color;
         }
 
+        &-main-divide {
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            margin-top: 10px;
+        }
+
+        &__main-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin: 10px 5px 5px 5px;
+        }
+
         &-block {
             display: flex;
+            padding-left: 5px;
 
             p {
+                word-wrap: break-word;
                 display: flex;
                 align-items: center;
             }
 
             .pi,
-            &__desctiption {
+            &__desctiption,
+            &__title-desctiption,
+            &__main-desctiption {
                 color: $subtext-color;
+                font-size: 17px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            .pi {
+                margin-right: 10px;
+            }
+
+            &__title,
+            &__status {
+                font-size: 13px;
+                margin-left: 5px;
             }
 
             &__title {
-                margin-left: 10px;
+                margin-top: 14px;
+                color: $text-with-link-color;
+                border-bottom: 1px solid transparent;
+                transition: border-color 0.2s;
+                cursor: pointer;
+                white-space: nowrap;
+
+                &:hover {
+                    border-color: $text-with-link-color;
+                }
+            }
+
+            &__main-title {
+                font-size: 15px;
+                font-weight: 600;
+                margin: 5px 5px;
             }
 
             &__desctiption {
-                font-size: 15px;
+                font-size: 13px;
+                margin-top: 0;
                 margin-left: 5px;
+                margin-bottom: 0;
+                white-space: nowrap;
+            }
+
+            &__main-desctiption{
+                font-size: 13px;
+                margin-left: 0;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            &-description-field {
+                display: flex;
+            }
+        }
+
+        &-block-no-icon {
+            padding-bottom: 5px;
+            display: grid;
+            grid-template-columns: 150px min-content;
+            
+
+            p {
+                display: grid;
+                align-items: stretch;
+            }
+
+            &__main-title {
+                margin-bottom: 0px;
+                margin-top: 5px;
+            }
+
+            &__desctiption {
+                margin-top: 0px;
             }
         }
 
@@ -81,7 +162,7 @@
 @media (max-width: 1024px) {
     .profile {
         &-info {
-            width: 50vw;
+            width: 40vw;
         }
     }
 }
@@ -89,13 +170,14 @@
 @media (max-width: 768px) {
     .profile {
         &-info {
-            width: 80vw;
+            width: 70vw;
         }
     }
 }
 
 @media (max-width: 600px) {
     .profile-info {
+        width: 90vw;
         &-activity {
             &-block {
                 &__count {

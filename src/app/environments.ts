@@ -4,6 +4,8 @@ export const VKAuth = {
     redirectUri: 'https://statisticsusers.web.app/user'
 }
 
+export const VKUrl = 'https://api.vk.com/';
+
 export const OKAuth = {
     appId: '512002120657',
     appSecret: 'CCNMFFLGDIHBABABA',

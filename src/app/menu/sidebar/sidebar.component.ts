@@ -1,28 +1,67 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { ISidebarItem, MenuService } from '../menu.service';
-import { Subscription } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
+
+const sidebarItems: ISidebarItem[] = [
+  {
+    imgClass: 'pi-user',
+    text: 'Моя страница'
+  },
+  {
+    imgClass: 'pi-globe',
+    text: 'Новости'
+  },
+  {
+    imgClass: 'pi-envelope',
+    text: 'Мессенджер'
+  },
+  {
+    imgClass: 'pi-phone',
+    text: 'Звонки'
+  },
+  {
+    imgClass: 'pi-users',
+    text: 'Друзья'
+  },
+  {
+    imgClass: 'pi-id-card',
+    text: 'Сообщества'
+  },
+  {
+    imgClass: 'pi-image',
+    text: 'Фотографии'
+  },
+  {
+    imgClass: 'pi-play',
+    text: 'Музыка'
+  },
+  {
+    imgClass: 'pi-video',
+    text: 'Видео'
+  }
+];
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
+
 export class SidebarComponent implements OnInit, OnDestroy {
-  public sidebarItems: ISidebarItem[] = this.menuService.sidebarItems;
+  @Input() activePage!: string;
+
+  public sidebarItems: ISidebarItem[] = sidebarItems;
   public smallScreen!: boolean;
   public activeSidebar: boolean = false;
 
   private subscriptions!: Subscription;
 
-  constructor(private breakpointObserver: BreakpointObserver, private menuService: MenuService) { }
+  constructor(private menuService: MenuService) { }
 
   ngOnInit() {
-    if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
-      this.smallScreen = true;
-    }
+    this.checkScreenSize();
 
-    this.subscriptions = this.menuService.getSidebarActivities().subscribe((status) => {
+    this.subscriptions = this.menuService.getSidebarActivities.subscribe((status) => {
       this.activeSidebar = status;
     });
   }
@@ -31,7 +70,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  public changeSidebarActive() {
-    this.menuService.setSidebarActivities(!this.activeSidebar);
+  public changeSidebarActive(): void {
+    this.menuService.setSidebarActivities = !this.activeSidebar;;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  private checkScreenSize(): void {
+    if (window.innerWidth < 600)
+      this.smallScreen = true;
+    else
+      this.smallScreen = false;
   }
 }

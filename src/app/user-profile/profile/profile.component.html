@@ -1,29 +1,67 @@
-<app-header></app-header>
-<div class="profile" >
-    <app-sidebar></app-sidebar>
+<app-header *ngIf="userInfo" [avaUrl] = "userInfo.photo"></app-header>
+<div class="profile">
+    <app-sidebar [activePage]="'Моя страница'"></app-sidebar>
 
     <div class="profile-field">
         <div class="profile-field-header" *ngIf="userInfo">
-            <div class="profile-field-header__photo">
-                <img src="{{userInfo.photo}}" alt="">
+            <div class="profile-field-header__cover" *ngIf="userInfo.cover.url">
+                <img src="{{userInfo.cover.url}}" alt="">
             </div>
 
-            <div class="profile-field-header__user-info">
-                <p class="profile-field-header__user-info__name">{{userInfo.name}}</p>
-                <p class="profile-field-header__user-info__status">{{userInfo.status}}</p>
-                <div class="profile-field-header__user-info-details">
-                    <p class="pi pi-map" *ngIf="userInfo.city!==''"></p>
-                    <p class="profile-field-header__user-info-details__title" *ngIf="userInfo.city!==''">
-                        {{userInfo.city}}</p>
-                    <p class="pi pi-book" *ngIf="userInfo.education!==''"></p>
-                    <p class="profile-field-header__user-info-details__title" *ngIf="userInfo.education!==''">
-                        {{userInfo.education}}</p>
-                    <p class="pi pi-plus"></p>
-                    <p class="profile-field-header__user-info-details__title profile-field-header__user-info-details__more"
-                        (click)="changeActiveMoreInfo()">
-                        Подробнее</p>
-                    <app-profile-info (moreInfoActive)="moreInfoActiveEmit()" [token]="token" [userInfo]="userInfo"
-                        *ngIf="moreInfoActive"></app-profile-info>
+            <div class="profile-field-header-content">
+                <div class="profile-field-header-content__photo">
+                    <img src="{{userInfo.photo}}" alt="">
+                </div>
+
+                <div class="profile-field-header-content__user-info"
+                    [class.profile-field-header-content__user-info-with-cover]="userInfo.cover.url">
+                    <p class="profile-field-header-content__user-info__name">{{userInfo.name}}</p>
+                    <p class="profile-field-header-content__user-info__status">{{userInfo.status}}</p>
+                    <div class="profile-field-header-content__user-info-details">
+                        <p class="pi pi-map-marker" *ngIf="userInfo.city"></p>
+                        <p class="profile-field-header-content__user-info-details__title" *ngIf="userInfo.city">
+                            {{userInfo.city}}</p>
+
+                        <p class="pi pi-briefcase" *ngIf="userInfo.career[0] || userInfo.schools[0] || userInfo.universityName">
+                        </p>
+                        <p class="profile-field-header-content__user-info-details__title" *ngIf="userInfo.career[0]">
+                            {{userInfo.career[0].company}}</p>
+                        <p class="profile-field-header-content__user-info-details__title"
+                            *ngIf="!userInfo.career[0] && userInfo.universityName">
+                            {{userInfo.universityName}}</p>
+                        <p class="profile-field-header-content__user-info-details__title"
+                            *ngIf="!userInfo.career[0] && !userInfo.universityName && userInfo.schools[0]">
+                            {{userInfo.schools[0].name}}</p>
+
+                        <p class="pi pi-info-circle"></p>
+                        <p class="profile-field-header-content__user-info-details__title profile-field-header-content__user-info-details__more"
+                            (click)="changeActiveMoreInfo()">
+                            Подробнее</p>
+
+                        <app-profile-info (moreInfoActive)="moreInfoActiveEmit()" [userInfo]="userInfo"
+                            [friendsCount]="friendsCount" [followersCount]="followersCount"
+                            [subscribeCount]="subscribeCount" *ngIf="moreInfoActive"></app-profile-info>
+                    </div>
+                </div>
+
+                <div class="profile-field-header-content-button-field"
+                    [class.profile-field-header-content-button-field-with-cover]="userInfo.cover.url">
+                    <p-button label="Редактировать профиль"></p-button>
+                    <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder="Ещё"
+                        class="dropdown">
+                        <ng-template pTemplate="selectedItem">
+                            <div class="p-dropdown-main">
+                                <p>Ещё</p>
+                                <span class="pi pi-angle-down"></span>
+                            </div>
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            <div class="p-dropdown-item">
+                                <span [ngClass]="'pi ' + item.icon"></span>
+                                <p>{{ item.title }}</p>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
                 </div>
             </div>
         </div>

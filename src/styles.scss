@@ -3,7 +3,7 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
-
+@import './app/_variables.scss';
 body {
     margin: 0;
     padding: 0;
@@ -25,6 +25,187 @@ input {
 .content-form__btn {
     width: 100%;
     margin-top: 5px;
+}
+
+.dropdown {
+    .p-dropdown {
+        width: 80px;
+        background-color: $button-color;
+        border-color: $button-color;
+
+        span {
+            color: $prime-ng-color;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .p-dropdown-label {
+            font-size: 12px;
+            padding-right: 12px;
+        }
+
+        .p-overlay{
+            margin-top: 5px;
+            left: -50px !important;
+        }
+
+        &-main {
+            display: flex;
+            align-items: center;
+
+            p,
+            span {
+                margin: 0;
+            }
+
+            span {
+                margin-left: auto;
+            }
+        }
+
+        p-dropdownitem{
+            width: 10vw;
+        }
+
+        &-item {
+            padding: 5px;
+            display: flex;
+            gap: 10px;
+            border-radius: 10px;
+            margin: 0 5px;
+            background-color: transparent;
+
+            p {
+                margin: 0;
+                font-size: 12px;
+            }
+
+            &:hover {
+                background-color: #EDEEF0;
+            }
+        }
+
+        &:hover {
+            background-color: $button-hover-color;
+        }
+    }
+
+    .p-dropdown-trigger {
+        width: 0;
+    }
+
+    .p-icon-wrapper {
+        width: 0;
+        display: none;
+    }
+}
+
+.profile-field-header-content-button-field button {
+    width: 200px;
+    font-size: 12px;
+    background-color: $button-color;
+    border-color: $button-color;
+    color: $prime-ng-color;
+
+    &:hover {
+        background-color: $button-hover-color;
+    }
+}
+
+@media (max-width: 1044px) {
+    .dropdown {
+        .p-dropdown {
+            width: 50px;
+            height: 35px;
+
+            .pi{
+                font-size: 10px;
+            }
+
+            .pi-angle-down{
+                display: none;
+            }
+
+            .p-dropdown-label {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 10px;
+            }
+
+            .p-overlay{
+                margin-top: 2px;
+                left: -30px !important;
+            }
+
+            &-item {
+                padding: 2px;
+                margin: 0 2px;
+
+                p {
+                    font-size: 8px;
+                }
+            }
+        }
+    }
+
+    .profile-field-header-content-button-field button {
+        width: 150px;
+        height: 35px;
+        font-size: 10px;
+        padding: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .dropdown {
+        .p-dropdown {
+            width: 50px;
+            height: 30px;
+
+            .pi{
+                font-size: 10px;
+            }
+
+            .pi-angle-down{
+                display: none;
+            }
+
+            .p-dropdown-label {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 8px;
+            }
+
+            .p-overlay{
+                margin-top: 2px;
+                left: -65px !important;
+            }
+
+            &-item {
+                padding: 2px;
+                margin: 0 2px;
+
+                p {
+                    font-size: 8px;
+                }
+            }
+        }
+    }
+
+    .profile-field-header-content-button-field button {
+        width: 130px;
+        height: 30px;
+        font-size: 8px;
+        padding: 0;
+    }
+}
+
+@media (max-width: 650px) {
+    .dropdown .p-dropdown {
+        width: 100%;
+    }
 }
 
 @media (max-width: 650px) {
