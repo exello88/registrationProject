@@ -1,4 +1,4 @@
-<div class="profile" (click)="moreInfoActive.emit(false)">
+<div class="profile" (click)="moreInfoActive.emit(false)" *ngIf="activitiesAvailable">
     <div class="profile-info" (click)="$event.stopPropagation()">
         <div class="profile-info-block">
             <p class="profile-info-block__main-title">Подробная информация</p>

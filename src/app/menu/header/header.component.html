@@ -9,7 +9,30 @@
         <span class="pi pi-video"></span>
     </div>
 
-    <div class="header-image" (click)="changeActiveSidebar()" *ngIf = "avaUrl">
+    <div class="header-image" *ngIf="avaUrl">
         <img src="{{avaUrl}}">
+    </div>
+</div>
+
+<div class="header-mobile" >
+    <span class="pi pi-arrow-left"></span>
+
+    <p class="header-mobile__id">Id{{id}}</p>
+
+    <div class="header-mobile-right">
+        <span class="pi pi-th-large"></span>
+        <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder="" class="dropdown">
+            <ng-template pTemplate="selectedItem">
+                <div class="p-dropdown-main">
+                    <span class="pi pi-ellipsis-h"></span>
+                </div>
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                <div class="p-dropdown-item">
+                    <span [ngClass]="'pi ' + item.imgClass"></span>
+                    <p>{{ item.text }}</p>
+                </div>
+            </ng-template>
+        </p-dropdown>
     </div>
 </div>

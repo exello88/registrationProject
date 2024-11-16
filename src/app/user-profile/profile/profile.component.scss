@@ -4,15 +4,26 @@
 .profile {
     display: grid;
     gap: 10px;
-    grid-template-columns: calc(10vw + 200px) calc(80vw - 210px);
+    margin-top: 15px;
+    grid-template-columns: calc(10vw + 160px) calc(80vw - 190px);
 
     &-field {
         &-header {
             &__cover {
+                position: relative;
                 width: 100%;
                 height: 200px;
                 background-color: white;
-                margin-bottom: -70px;
+                margin-bottom: -95px;
+                background-color: $background-color;
+
+                &:hover {
+                    .profile-field-header__cover-button {
+                        display: block;
+                    }
+                }
+
+
             }
 
             &__cover img {
@@ -25,8 +36,11 @@
 
             &-content {
                 display: flex;
-                gap: 5px;
-                padding: 20px;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+                background-color: white;
+                border-radius: 15px;
 
                 &__photo {
                     width: 150px;
@@ -37,6 +51,7 @@
                     overflow: hidden;
                     border-radius: 50%;
                     background-color: white;
+                    z-index: 1;
                 }
 
                 &__photo img {
@@ -53,7 +68,7 @@
                     padding-bottom: 20px;
 
                     &-with-cover {
-                        margin-top: auto;
+                        margin-top: 95px;
                     }
 
                     &-icon {
@@ -62,14 +77,15 @@
                     }
 
                     &__name {
-                        font-size: 20px;
-                        font-weight: 900;
+                        font-size: 21px;
+                        font-weight: 600;
                         margin: 0;
                     }
 
                     &__status {
                         margin: 0;
                         font-size: 13px;
+                        font-weight: 400;
                     }
 
                     &-details {
@@ -79,11 +95,16 @@
 
                         .pi,
                         &__title {
-                            font-size: 12px;
+                            font-size: 13px;
+                            font-weight: 400;
                             margin: 0;
                             color: $subtext-color;
                             display: flex;
                             align-items: center;
+                        }
+
+                        .pi {
+                            font-size: 18px;
                         }
 
                         &__title {
@@ -101,9 +122,10 @@
                     display: flex;
                     gap: 10px;
                     margin-left: auto;
+                    margin-top: -60px;
 
                     &-with-cover {
-                        align-items: center;
+                        margin-top: 30px;
                     }
                 }
             }
@@ -111,12 +133,16 @@
     }
 }
 
+.tabbar {
+    display: none;
+}
+
 @media (max-width: 1200px) {
     .profile {
         grid-template-columns: calc(5vw + 200px) calc(90vw - 210px);
 
         &-field-header-content {
-            padding: 20px 10px;
+            padding: 10px 10px;
         }
     }
 }
@@ -125,6 +151,7 @@
 @media (max-width: 1044px) {
     .profile {
         grid-template-columns: calc(5vw + 150px) calc(90vw - 160px);
+
         &-field {
             &-header {
                 &__cover {
@@ -132,21 +159,24 @@
                 }
 
                 &-content {
-                    padding-top: 20px;
+                    gap: 5px;
+                    padding-top: 5px;
+                    padding-bottom: 5px;
+
                     &__photo {
-                        width: 120px;
-                        height: 120px;
+                        width: 100px;
+                        height: 100px;
                     }
 
                     &__user-info {
                         padding-bottom: 10px;
 
                         &__name {
-                            font-size: 15px;
+                            font-size: 13px;
                         }
 
                         &__status {
-                            font-size: 10px;
+                            font-size: 11px;
                         }
 
                         &-details {
@@ -154,14 +184,23 @@
 
                             .pi,
                             &__title {
-                                font-size: 8px;
+                                font-size: 9px;
                             }
+                        }
+
+
+                        &-with-cover {
+                            margin-top: 100px;
                         }
                     }
 
                     &-button-field {
-                        margin-top: 30px;
                         gap: 5px;
+                        margin-top: -30px;
+
+                        &-with-cover {
+                            margin-top: 70px;
+                        }
                     }
                 }
             }
@@ -172,42 +211,56 @@
 
 @media (max-width: 768px) {
     .profile {
-        grid-template-columns: 150px calc(100vw - 150px);
+        grid-template-columns: 150px calc(100vw - 160px);
 
         &-field {
             &-header {
+                &__cover {
+                    margin-bottom: -90px;
+                }
+
                 &-content {
-                    padding-top: 45px;
+                    gap: 5px;
+                    padding-bottom: 0;
 
                     &__photo {
-                        width: 75px;
-                        height: 75px;
+                        width: 80px;
+                        height: 80px;
                     }
 
                     &__user-info {
-                        padding-bottom: 0;
+                        padding-bottom: 5px;
 
                         &__name {
                             font-size: 12px;
                         }
 
                         &__status {
-                            font-size: 7px;
+                            font-size: 10px;
                         }
 
                         &-details {
-                            gap: 3px;
+                            gap: 1px;
 
                             .pi,
                             &__title {
-                                font-size: 7px;
+                                font-size: 8px;
                             }
+                        }
+
+
+                        &-with-cover {
+                            margin-top: 90px;
                         }
                     }
 
                     &-button-field {
-                        margin-top: 15px;
-                        gap: 2px;
+                        gap: 5px;
+                        margin-top: -20px;
+
+                        &-with-cover {
+                            margin-top: 65px;
+                        }
                     }
                 }
             }
@@ -219,46 +272,43 @@
     .profile {
         grid-template-columns: 0 100vw;
         gap: 0;
+        margin-top: 0;
+
+        &-field-header__cover img {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
 
         &-field {
             &-header {
-                &-content {
-                    padding-top: 35px;
+                &__cover {
+                    position: static;
 
-                    &__photo {
-                        width: 100px;
-                        height: 100px;
-                    }
-
-                    &__user-info {
-                        &__name {
-                            font-size: 15px;
-                        }
-
-                        &__status {
-                            font-size: 10px;
-                        }
-
-                        &-details {
-                            gap: 3px;
-
-                            .pi,
-                            &__title {
-                                font-size: 10px;
-                            }
+                    &:hover {
+                        .profile-field-header__cover-button {
+                            display: none;
                         }
                     }
 
-                    &-button-field {
-                        gap: 2px;
-                    }
+                }
+
+                &-content-button-field {
+                    display: none;
+                }
+
+                &-content__photo {
+                    z-index: 0;
                 }
             }
         }
     }
+
+    .tabbar {
+        display: block;
+    }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 450px) {
     .profile {
         grid-template-columns: 0 100vw;
 
@@ -295,6 +345,10 @@
                             &__title {
                                 font-size: 10px;
                             }
+                        }
+
+                        &-with-cover {
+                            margin-top: 0;
                         }
                     }
 

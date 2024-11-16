@@ -3,7 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface ISidebarItem {
       imgClass: string,
-      text: string
+      text: string,
+      hideOnSmallScreen?: boolean
 }
 
 @Injectable({

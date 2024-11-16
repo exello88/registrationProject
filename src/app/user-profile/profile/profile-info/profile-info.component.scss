@@ -11,14 +11,14 @@
     left: 0;
     right: 0;
     bottom: 0;
-    backdrop-filter: blur(5px);
-    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 3;
 
     &-info {
         position: relative;
-        width: 30vw;
+        width: 35vw;
         background-color: white;
-        padding: 20px;
+        padding: 10px 20px;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         z-index: 3;
@@ -31,15 +31,14 @@
         }
 
         &-main-divide {
-            width: calc(100% + 40px);
-            margin-left: -20px;
+            width: calc(100% + 20px);
+            margin-left: -10px;
             margin-top: 10px;
         }
 
-        &__main-title {
-            font-size: 13px;
+        &__main-title{
+            font-size: 14px;
             font-weight: 600;
-            margin: 10px 5px 5px 5px;
         }
 
         &-block {
@@ -69,11 +68,12 @@
             &__title,
             &__status {
                 font-size: 13px;
+                font-weight: 400;
                 margin-left: 5px;
             }
 
             &__title {
-                margin-top: 14px;
+                margin-top: 13px;
                 color: $text-with-link-color;
                 border-bottom: 1px solid transparent;
                 transition: border-color 0.2s;
@@ -86,9 +86,9 @@
             }
 
             &__main-title {
-                font-size: 15px;
-                font-weight: 600;
-                margin: 5px 5px;
+                font-size: 14px;
+                font-weight: 400;
+                margin: 10px 5px;
             }
 
             &__desctiption {

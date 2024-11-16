@@ -4,12 +4,25 @@ import { Router } from '@angular/router';
 import { AuthSource } from 'src/app/enum';
 import { IUserInfo, ProfileService } from '../profile.service';
 import { Subscription } from 'rxjs';
+import { UserInfoBuilder } from '../user-info.builder';
+import { VKTokens } from 'src/app/session-data';
 
-const moreActions: { title: string, icon: string }[] = [
+interface IAction {
+  title: string,
+  icon: string
+}
+
+const moreActions: IAction[] = [
   { title: 'Мои вопросы', icon: 'pi-comment' },
   { title: 'Воспоминания', icon: 'pi-history' },
   { title: 'Мои желания', icon: 'pi-heart' },
   { title: 'Денежные переводы', icon: 'pi-id-card' }
+]
+
+const changeActions: IAction[] = [
+  { title: 'Загружать изображение', icon: 'pi-image' },
+  { title: 'Область отображения', icon: 'pi-clone' },
+  { title: 'Удалить', icon: 'pi-trash' }
 ]
 
 @Component({
@@ -24,16 +37,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public friendsCount!: number;
   public followersCount!: number;
   public subscribeCount!: number;
-  public moreActions!: { title: string, icon: string }[];
-  public selectedAction: { title: string, icon: string } = { title: '', icon: '' };
+  public moreActions: IAction[] = moreActions;
+  public changeActions:IAction[] = changeActions;
+  public selectedAction: IAction = { title: '', icon: '' };
 
   private userID!: string;
   private subscriptions!: Subscription;
+  private userInfoBuilder: UserInfoBuilder = new UserInfoBuilder(this.http, this.profileSevice);
 
   constructor(private router: Router, private http: HttpClient, private profileSevice: ProfileService) { };
 
   ngOnInit() {
-    this.initialURL();
+    if (VKTokens.token && VKTokens.userId) {
+      this.token = VKTokens.token;
+      this.userID = VKTokens.userId;
+      this.getUser();
+    }
+    else
+      this.initialURL();
   };
 
   ngOnDestroy() {
@@ -76,16 +97,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.token = vkToken;
       this.userID = vkUserID;
 
-      this.subscriptions = this.profileSevice.getUserData(this.userID, this.token).subscribe((userInfo: IUserInfo) => {
-        this.userInfo = userInfo;
-        this.moreActions = moreActions;
+      VKTokens.token = this.token;
+      VKTokens.userId = this.userID;
+      localStorage.setItem('VkToken', JSON.stringify({ token: this.token, userId: this.userID }));
 
-        this.subscriptions = this.profileSevice.getUserActivities(this.userInfo.id, this.token).subscribe(count => {
-          this.friendsCount = count.friendsCount;
-          this.followersCount = count.followersCount;
-          this.subscribeCount = count.subscriptionsCount;
-        });
-      });
+      this.getUser();
     }
   }
 
@@ -94,5 +110,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (okToken) {
       this.token = okToken;
     }
+  }
+
+  private getUser() : void {
+    this.subscriptions = this.userInfoBuilder.buildUserData().subscribe(data => {
+      this.userInfo = data;
+    });
   }
 }

@@ -1,35 +1,25 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { MenuService } from '../menu.service';
+import { Component, Input } from '@angular/core';
+import { ISidebarItem } from '../menu.service';
+
+const moreActions: ISidebarItem[] = [
+  { text: 'Редактировать профиль', imgClass: 'pi-user' },
+  { text: 'Изменить обложку', imgClass: 'pi-pencil' },
+  { text: 'Скопировать ссылку', imgClass: 'pi-copy' },
+  { text: 'Поделиться профилем', imgClass: 'pi-arrow-up-right' },
+  { text: 'Мои вопросы', imgClass: 'pi-comment' },
+  { text: 'Воспоминания', imgClass: 'pi-history' },
+  { text: 'Мои желания', imgClass: 'pi-heart' },
+  { text: 'Денежные переводы', imgClass: 'pi-id-card' }
+]
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent{
   @Input() avaUrl!: string;
+  @Input() id!: number;
 
-  private activeSidebar = false;
-  private subscriptions!: Subscription;
-
-
-  constructor(private breakpointObserver: BreakpointObserver, private menuService: MenuService) { }
-
-  ngOnInit() {
-    this.subscriptions = this.menuService.getSidebarActivities.subscribe((status) => {
-      this.activeSidebar = status;
-    });
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  public changeActiveSidebar(): void {
-    if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
-      this.menuService.setSidebarActivities = !this.activeSidebar;;
-    }
-  }
+  public moreActions : ISidebarItem[] = moreActions;
 }

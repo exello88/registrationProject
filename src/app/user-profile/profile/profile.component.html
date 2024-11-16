@@ -1,11 +1,28 @@
-<app-header *ngIf="userInfo" [avaUrl] = "userInfo.photo"></app-header>
-<div class="profile">
-    <app-sidebar [activePage]="'Моя страница'"></app-sidebar>
+<app-header *ngIf="userInfo" [avaUrl]="userInfo.photo" [id]="userInfo.id"></app-header>
+<div class="profile" *ngIf="userInfo">
+    <app-sidebar [activePage]="'Моя страница'" [avaUrl]="userInfo.photo" [name]="userInfo.name"></app-sidebar>
 
     <div class="profile-field">
         <div class="profile-field-header" *ngIf="userInfo">
             <div class="profile-field-header__cover" *ngIf="userInfo.cover.url">
                 <img src="{{userInfo.cover.url}}" alt="">
+   
+
+                <p-dropdown [options]="changeActions" optionLabel="title" [showClear]="true" placeholder=""
+                    class="dropdown profile-field-header__cover-button">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="profile-field-header__cover-button-label">
+                            <span class="pi pi-pencil"></span>
+                            <p>Изменить обложку</p>
+                        </div>
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        <div class="p-dropdown-item">
+                            <span [ngClass]="'pi ' + item.icon"></span>
+                            <p>{{ item.title }}</p>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
             </div>
 
             <div class="profile-field-header-content">
@@ -22,7 +39,8 @@
                         <p class="profile-field-header-content__user-info-details__title" *ngIf="userInfo.city">
                             {{userInfo.city}}</p>
 
-                        <p class="pi pi-briefcase" *ngIf="userInfo.career[0] || userInfo.schools[0] || userInfo.universityName">
+                        <p class="pi pi-briefcase"
+                            *ngIf="userInfo.career[0] || userInfo.schools[0] || userInfo.universityName">
                         </p>
                         <p class="profile-field-header-content__user-info-details__title" *ngIf="userInfo.career[0]">
                             {{userInfo.career[0].company}}</p>
@@ -38,16 +56,15 @@
                             (click)="changeActiveMoreInfo()">
                             Подробнее</p>
 
-                        <app-profile-info (moreInfoActive)="moreInfoActiveEmit()" [userInfo]="userInfo"
-                            [friendsCount]="friendsCount" [followersCount]="followersCount"
-                            [subscribeCount]="subscribeCount" *ngIf="moreInfoActive"></app-profile-info>
+                        <app-profile-info (moreInfoActive)="moreInfoActiveEmit()" [userInfo]="userInfo" [token]="token"
+                            *ngIf="moreInfoActive"></app-profile-info>
                     </div>
                 </div>
 
                 <div class="profile-field-header-content-button-field"
                     [class.profile-field-header-content-button-field-with-cover]="userInfo.cover.url">
                     <p-button label="Редактировать профиль"></p-button>
-                    <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder="Ещё"
+                    <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder=""
                         class="dropdown">
                         <ng-template pTemplate="selectedItem">
                             <div class="p-dropdown-main">
@@ -67,3 +84,4 @@
         </div>
     </div>
 </div>
+<app-tabbar class="tabbar"></app-tabbar>

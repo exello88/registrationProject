@@ -1,0 +1,38 @@
+@import '../../variables';
+
+.tabbar{
+    position: fixed;
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+    bottom: 0;
+    padding-top: 4px;
+    width: 100vw;
+    background-color: white;
+    z-index: 2;
+
+
+    &-item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: $subtext-color;
+        padding: 3px;
+        cursor: pointer;
+
+        p{
+            margin: 2px;
+            font-size: 10px;
+            font-weight: 500px;
+        }
+
+        span{
+            font-size: 23px;
+            font-weight: 500px;
+        }
+
+        &-active{
+            color: $prime-ng-color;
+        }
+    }
+}
