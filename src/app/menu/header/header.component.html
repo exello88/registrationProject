@@ -13,11 +13,10 @@
         <img src="{{avaUrl}}">
     </div>
 </div>
-
-<div class="header-mobile" >
+<div class="header-mobile" appHideOnScroll (scrollWatcher)="scrollWatcher = $event">
     <span class="pi pi-arrow-left"></span>
 
-    <p class="header-mobile__id">Id{{id}}</p>
+    <p class="header-mobile__id" *ngIf="!scrollWatcher">Id{{id}}</p>
 
     <div class="header-mobile-right">
         <span class="pi pi-th-large"></span>

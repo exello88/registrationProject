@@ -26,7 +26,7 @@ export class TabbarComponent implements OnInit, OnDestroy {
 
   public changeActiveSidebar(): void {
     if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
-      this.menuService.setSidebarActivities = !this.activeSidebar;
+      this.menuService.setSidebarActivities = true;
     }
   }
 }

@@ -1,9 +1,9 @@
-<div [class.blur-for-mobile]="smallScreen && activeSidebar" (click)="changeSidebarActive()" appSidebar></div>
+<div [class.blur-for-mobile]="smallScreen && activeSidebar" appSidebar></div>
 
 <div class="sidebar" [class.sidebar-active-for-mobile]="smallScreen"
-    *ngIf="(smallScreen && activeSidebar) || !smallScreen" (click)="navigateToUser($event)">
+    *ngIf="(smallScreen && activeSidebar) || !smallScreen">
     <div class=" sidebar-item sidebar-item__my-page" [class.sidebar-item-active]="activePage === 'Моя страница'"
-        *ngIf="smallScreen">
+        *ngIf="smallScreen" (click)="navigateToUser($event)">
         <div class="sidebar-item__ava">
             <img src="{{avaUrl}}" alt="">
         </div>

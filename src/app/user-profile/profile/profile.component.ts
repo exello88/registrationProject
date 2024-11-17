@@ -5,7 +5,7 @@ import { AuthSource } from 'src/app/enum';
 import { IUserInfo, ProfileService } from '../profile.service';
 import { Subscription } from 'rxjs';
 import { UserInfoBuilder } from '../user-info.builder';
-import { VKTokens } from 'src/app/session-data';
+import { user, VKTokens } from 'src/app/session-data';
 
 interface IAction {
   title: string,
@@ -20,7 +20,7 @@ const moreActions: IAction[] = [
 ]
 
 const changeActions: IAction[] = [
-  { title: 'Загружать изображение', icon: 'pi-image' },
+  { title: 'Загрузить изображение', icon: 'pi-image' },
   { title: 'Область отображения', icon: 'pi-clone' },
   { title: 'Удалить', icon: 'pi-trash' }
 ]
@@ -34,11 +34,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public token!: string;
   public moreInfoActive: boolean = false;
   public userInfo!: IUserInfo;
-  public friendsCount!: number;
-  public followersCount!: number;
-  public subscribeCount!: number;
   public moreActions: IAction[] = moreActions;
-  public changeActions:IAction[] = changeActions;
+  public changeActions: IAction[] = changeActions;
   public selectedAction: IAction = { title: '', icon: '' };
 
   private userID!: string;
@@ -51,7 +48,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (VKTokens.token && VKTokens.userId) {
       this.token = VKTokens.token;
       this.userID = VKTokens.userId;
-      this.getUser();
+      if (!user.userInfo)
+        this.getUser();
+      else
+        this.userInfo = user.userInfo;
     }
     else
       this.initialURL();
@@ -112,9 +112,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getUser() : void {
+  private getUser(): void {
     this.subscriptions = this.userInfoBuilder.buildUserData().subscribe(data => {
       this.userInfo = data;
+      user.userInfo = this.userInfo;
     });
   }
 }

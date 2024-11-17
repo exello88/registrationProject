@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ISidebarItem } from '../menu.service';
+import { user } from 'src/app/session-data';
 
 const moreActions: ISidebarItem[] = [
   { text: 'Редактировать профиль', imgClass: 'pi-user' },
@@ -17,9 +18,16 @@ const moreActions: ISidebarItem[] = [
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent{
-  @Input() avaUrl!: string;
-  @Input() id!: number;
+export class HeaderComponent implements OnInit {
+  public scrollWatcher: boolean = false;
+  public avaUrl!: string;
+  public id!: number;
+  public moreActions: ISidebarItem[] = moreActions;
 
-  public moreActions : ISidebarItem[] = moreActions;
+  ngOnInit() {
+    if (user.userInfo) {
+      this.avaUrl = user.userInfo.photo;
+      this.id = user.userInfo.id
+    }
+  }
 }

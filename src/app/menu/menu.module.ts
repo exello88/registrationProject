@@ -6,6 +6,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SidebarDirective } from './sidebar/sidebar.directive';
 import { TabbarComponent } from './tabbar/tabbar.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { HideOnScrollDirective } from './header/hide-on-scroll.directive';
 
 
 
@@ -14,7 +15,8 @@ import { DropdownModule } from 'primeng/dropdown';
     HeaderComponent,
     SidebarComponent,
     SidebarDirective,
-    TabbarComponent
+    TabbarComponent,
+    HideOnScrollDirective
   ],
   imports: [
     CommonModule,

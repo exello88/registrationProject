@@ -3,6 +3,7 @@ import { IUserInfo, ProfileService } from '../../profile.service';
 import { Subscription } from 'rxjs';
 import { UserInfoBuilder } from '../../user-info.builder';
 import { HttpClient } from '@angular/common/http';
+import { user } from 'src/app/session-data';
 
 @Component({
   selector: 'app-profile-info',
@@ -15,7 +16,7 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
   public subscribeCount!: number;
   public followersCount!: number;
   public friendsCount!: number;
-  public activitiesAvailable: boolean = false; 
+  public activitiesAvailable: boolean = false;
 
   private subscriptions!: Subscription;
   private userInfoBuilder: UserInfoBuilder = new UserInfoBuilder(this.http, this.profileSevice);
@@ -25,17 +26,33 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient, private profileSevice: ProfileService) { }
 
   ngOnInit() {
-    this.subscriptions = this.userInfoBuilder.buildUserActivities().subscribe(activities => {
-      this.subscribeCount = activities.subscriptionsCount;
-      this.followersCount = activities.followersCount;
-      this.friendsCount = activities.friendsCount;
+    if (user.userActivities.followersCount !== undefined &&
+      user.userActivities.friendsCount !== undefined &&
+      user.userActivities.subscribeCount !== undefined) {
+      this.followersCount = user.userActivities.followersCount;
+      this.friendsCount = user.userActivities.friendsCount;
+      this.subscribeCount = user.userActivities.subscribeCount;
 
       this.activitiesAvailable = true;
-    });
+    }
+    else
+      this.subscriptions = this.userInfoBuilder.buildUserActivities().subscribe(activities => {
+        this.subscribeCount = activities.subscriptionsCount;
+        this.followersCount = activities.followersCount;
+        this.friendsCount = activities.friendsCount;
+        user.userActivities = {
+          followersCount: this.followersCount,
+          friendsCount: this.friendsCount,
+          subscribeCount: this.subscribeCount
+        }
+
+        this.activitiesAvailable = true;
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    if (this.subscriptions)
+      this.subscriptions.unsubscribe();
   }
 
   public moreInfoActiveEmit(): void {
