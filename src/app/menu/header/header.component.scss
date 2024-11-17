@@ -32,6 +32,12 @@
             width: 230px;
         }
 
+        &__input-icon{
+            font-size: 15px !important;
+            margin-right: -45px;
+            z-index: 1;
+        }
+
         span {
             font-size: 20px;
             cursor: pointer;

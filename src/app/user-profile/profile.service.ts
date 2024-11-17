@@ -97,6 +97,12 @@ export interface ICount {
   count: number
 }
 
+export interface IDate{
+  day : number,
+  month : number, 
+  year : number
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -116,7 +122,7 @@ export class ProfileService implements OnDestroy {
     if (!date)
       throw new Error();
     else
-      return `${date.getDate()} ${this.getMonthName(date.getMonth())} ${date.getFullYear()}`;
+      return `${date.day} ${this.getMonthName(date.month)} ${date.year}`;
   }
 
   public getCityTitle(cityId: number): Observable<string> {
@@ -137,23 +143,23 @@ export class ProfileService implements OnDestroy {
     );
   }
   
-  private parseDate(dateString: string, format: string): Date | false {
+  private parseDate(dateString: string, format: string): IDate | false {
     const formatsIndex = format.split(/[^a-zA-Z]+/);
     const dateSplit = dateString.split(/[^0-9]+/);
 
-    const formatMap = {
-      dayIndex : formatsIndex.indexOf('DD'),
-      mounthIndex: formatsIndex.indexOf('MM'),
-      yearIndex: formatsIndex.indexOf('YYYY'),
+    const formatMap : IDate = {
+      day : formatsIndex.indexOf('DD'),
+      month: formatsIndex.indexOf('MM'),
+      year: formatsIndex.indexOf('YYYY'),
     };
 
-    const datesIndex = {
-      day : parseInt(dateSplit[formatMap.dayIndex]),
-      month : parseInt(dateSplit[formatMap.mounthIndex]), 
-      year : parseInt(dateSplit[formatMap.yearIndex])
+    const datesIndex : IDate = {
+      day : parseInt(dateSplit[formatMap.day]),
+      month : parseInt(dateSplit[formatMap.month]), 
+      year : parseInt(dateSplit[formatMap.year])
     };
 
-    return new Date(datesIndex.year, datesIndex.month, datesIndex.day);
+    return datesIndex;
   }
 
   private getMonthName(monthIndex: number): string {

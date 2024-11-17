@@ -4,7 +4,9 @@
     </div>
 
     <div class="header-options">
+        <span class="pi pi-search header-options__input-icon"></span>
         <p-autoComplete styleClass="header-options__input" placeholder="Поиск"></p-autoComplete>
+
         <span class="pi pi-bell"></span>
         <span class="pi pi-video"></span>
     </div>
@@ -13,6 +15,7 @@
         <img src="{{avaUrl}}">
     </div>
 </div>
+
 <div class="header-mobile" appHideOnScroll (scrollWatcher)="scrollWatcher = $event">
     <span class="pi pi-arrow-left"></span>
 

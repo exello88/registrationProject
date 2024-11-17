@@ -26,6 +26,33 @@ p-autocomprkete input {
     border-width: 0;
 }
 
+.header-options {
+    &__input {
+        input {
+            width: 230px;
+            height: 30px;
+            background-color: $background-color;
+            padding-left: 30px;
+            font-size: 12px;
+            border-width: 0;
+            box-shadow: none;
+        }
+
+        spinnericon {
+            display: none;
+        }
+    }
+
+    span {
+        pointer-events: none;
+        cursor: text !important;
+
+        &:hover {
+            color: $subtext-color !important;
+        }
+    }
+}
+
 .content-form__logo-img img {
     width: 100px;
     height: 45px;
@@ -40,7 +67,8 @@ p-autocomprkete input {
     margin-top: 5px;
 }
 
-.dropdown, .profile-field-header__cover-button {
+.dropdown,
+.profile-field-header__cover-button {
     .p-dropdown {
         width: 80px;
         height: 30px;
