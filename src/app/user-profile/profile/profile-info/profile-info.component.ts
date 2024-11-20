@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { IUserInfo, ProfileService } from '../../profile.service';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { UserInfoBuilder } from '../../user-info.builder';
 import { HttpClient } from '@angular/common/http';
 import { user } from 'src/app/session-data';
@@ -18,7 +18,7 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
   public friendsCount!: number;
   public activitiesAvailable: boolean = false;
 
-  private subscriptions!: Subscription;
+  private subscriptions$: Subject<void> = new Subject<void>();
   private userInfoBuilder: UserInfoBuilder = new UserInfoBuilder(this.http, this.profileSevice);
 
   @Output() moreInfoActive = new EventEmitter<boolean>();
@@ -26,9 +26,22 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient, private profileSevice: ProfileService) { }
 
   ngOnInit() {
-    if (user.userActivities.followersCount !== undefined &&
-      user.userActivities.friendsCount !== undefined &&
-      user.userActivities.subscribeCount !== undefined) {
+    this.getUserActivities();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions$.next();
+    this.subscriptions$.complete();
+  }
+
+  public moreInfoActiveEmit(): void {
+    this.moreInfoActive.emit(false);
+  }
+
+  private getUserActivities(): void {
+    if (user.userActivities.followersCount !== null &&
+      user.userActivities.friendsCount !== null &&
+      user.userActivities.subscribeCount !== null) {
       this.followersCount = user.userActivities.followersCount;
       this.friendsCount = user.userActivities.friendsCount;
       this.subscribeCount = user.userActivities.subscribeCount;
@@ -36,26 +49,19 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
       this.activitiesAvailable = true;
     }
     else
-      this.subscriptions = this.userInfoBuilder.buildUserActivities().subscribe(activities => {
-        this.subscribeCount = activities.subscriptionsCount;
-        this.followersCount = activities.followersCount;
-        this.friendsCount = activities.friendsCount;
-        user.userActivities = {
-          followersCount: this.followersCount,
-          friendsCount: this.friendsCount,
-          subscribeCount: this.subscribeCount
-        }
+      this.userInfoBuilder.buildUserActivities()
+        .pipe(takeUntil(this.subscriptions$))
+        .subscribe(activities => {
+          this.subscribeCount = activities.subscriptionsCount;
+          this.followersCount = activities.followersCount;
+          this.friendsCount = activities.friendsCount;
+          user.userActivities = {
+            followersCount: this.followersCount,
+            friendsCount: this.friendsCount,
+            subscribeCount: this.subscribeCount
+          }
 
-        this.activitiesAvailable = true;
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.subscriptions)
-      this.subscriptions.unsubscribe();
-  }
-
-  public moreInfoActiveEmit(): void {
-    this.moreInfoActive.emit(false);
+          this.activitiesAvailable = true;
+        });
   }
 }

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthSource } from 'src/app/enum';
+import { AuthSource, localStorageKeys } from 'src/app/enum';
 import { IUserInfo, ProfileService } from '../profile.service';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { UserInfoBuilder } from '../user-info.builder';
 import { user, VKTokens } from 'src/app/session-data';
 
@@ -39,12 +39,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public selectedAction: IAction = { title: '', icon: '' };
 
   private userID!: string;
-  private subscriptions!: Subscription;
+  private subscriptions$: Subject<void> = new Subject<void>();
   private userInfoBuilder: UserInfoBuilder = new UserInfoBuilder(this.http, this.profileSevice);
 
   constructor(private router: Router, private http: HttpClient, private profileSevice: ProfileService) { };
 
   ngOnInit() {
+    this.checkUserToken();
+  };
+
+  ngOnDestroy() {
+    this.subscriptions$.next();
+    this.subscriptions$.complete();
+  }
+
+  public moreInfoActiveEmit(): void {
+    this.moreInfoActive = false;
+  }
+
+  public changeActiveMoreInfo(): void {
+    this.moreInfoActive = true;
+  }
+
+  private checkUserToken(): void {
     if (VKTokens.token && VKTokens.userId) {
       this.token = VKTokens.token;
       this.userID = VKTokens.userId;
@@ -55,18 +72,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
     else
       this.initialURL();
-  };
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  public moreInfoActiveEmit(): void {
-    this.moreInfoActive = false;
-  }
-
-  public changeActiveMoreInfo(): void {
-    this.moreInfoActive = true;
   }
 
   private initialURL(): void {
@@ -99,7 +104,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
       VKTokens.token = this.token;
       VKTokens.userId = this.userID;
-      localStorage.setItem('VkToken', JSON.stringify({ token: this.token, userId: this.userID }));
+      localStorage.setItem(localStorageKeys.vkTokens, JSON.stringify({ token: this.token, userId: this.userID }));
 
       this.getUser();
     }
@@ -113,9 +118,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private getUser(): void {
-    this.subscriptions = this.userInfoBuilder.buildUserData().subscribe(data => {
-      this.userInfo = data;
-      user.userInfo = this.userInfo;
-    });
+    this.userInfoBuilder.buildUserData()
+      .pipe(takeUntil(this.subscriptions$))
+      .subscribe(data => {
+        this.userInfo = data;
+        user.userInfo = this.userInfo;
+      });
   }
 }

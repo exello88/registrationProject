@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VKTokens } from './session-data';
+import { localStorageKeys } from './enum';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ export class AppComponent implements OnInit {
   title = 'registrationProject';
 
   ngOnInit() {
-    let VkToken = localStorage.getItem('VkToken');
+    let VkToken = localStorage.getItem(localStorageKeys.vkTokens);
 
     if (VkToken) {
       const parsedVkToken = JSON.parse(VkToken);

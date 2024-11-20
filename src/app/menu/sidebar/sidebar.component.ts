@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { ISidebarItem, MenuService } from '../menu.service';
-import { fromEvent, Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { user } from 'src/app/session-data';
 
@@ -71,41 +71,48 @@ const sidebarItems: ISidebarItem[] = [
 
 export class SidebarComponent implements OnInit, OnDestroy {
   @Input() activePage!: string;
-  
+
   public avaUrl!: string;
   public name!: string;
   public sidebarItems: ISidebarItem[] = sidebarItems;
   public smallScreen!: boolean;
   public activeSidebar: boolean = false;
 
-  private subscriptions!: Subscription;
+  private subscriptions$: Subject<void> = new Subject<void>();
   static smallScreen: boolean;
 
   constructor(private menuService: MenuService, private cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
-    if(user.userInfo){
+    if (user.userInfo) {
       this.avaUrl = user.userInfo.photo;
       this.name = user.userInfo.name
     }
 
-    this.subscriptions = this.menuService.getSidebarActivities.subscribe((status) => {
-      this.activeSidebar = status;
-      this.cdr.detectChanges();
-    });
+    this.getActiveSidebar();
   }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    this.subscriptions$.next();
+    this.subscriptions$.complete();
   }
 
   public changeSidebarActive(): void {
     this.menuService.setSidebarActivities = !this.activeSidebar;
   }
 
-  public navigateToUser(event : Event) : void {
-    event.stopPropagation(); 
+  public navigateToUser(event: Event): void {
+    event.stopPropagation();
     this.changeSidebarActive();
     this.router.navigate(['/user']);
+  }
+
+  private getActiveSidebar(): void {
+    this.menuService.getSidebarActivities
+      .pipe(takeUntil(this.subscriptions$))
+      .subscribe((status) => {
+        this.activeSidebar = status;
+        this.cdr.detectChanges();
+      });
   }
 }

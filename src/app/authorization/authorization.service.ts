@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { VKAuth, OKAuth } from 'src/app/environments';
 import { user } from '../session-data';
+import { localStorageKeys } from '../enum';
 
 interface OAuth {
   appId: string,
@@ -13,10 +13,8 @@ interface OAuth {
   providedIn: 'root'
 })
 export class AuthorizationService {
-
-
   public redirectToVkLogin(): void {
-    this.localStorageTokenclear('VkToken');
+    this.localStorageTokenclear(localStorageKeys.vkTokens);
     window.open('https://api.vk.com/oauth/authorize?response_type=token&' + this.getLinksForLogin(VKAuth, 'vk'), '_self');
   }
 
@@ -33,8 +31,8 @@ export class AuthorizationService {
       localStorage.removeItem(key);
 
     user.userInfo = null;
-    user.userActivities.followersCount = undefined;
-    user.userActivities.friendsCount = undefined;
-    user.userActivities.subscribeCount = undefined;
+    user.userActivities.followersCount = null;
+    user.userActivities.friendsCount = null;
+    user.userActivities.subscribeCount = null;
   }
 }

@@ -1,4 +1,4 @@
-import { forkJoin, map, Observable, of, Subscription, tap } from 'rxjs';
+import { forkJoin, map, Observable, of, Subject, Subscription, takeUntil, tap } from 'rxjs';
 import { IResponse, IVkUserInfo, IUserInfo, ICount, IVKCity, ProfileService } from './profile.service';
 import { HttpClient } from '@angular/common/http';
 import { VKUrl } from '../environments';
@@ -9,12 +9,13 @@ import { VKTokens } from '../session-data';
   providedIn: 'platform',
 })
 export class UserInfoBuilder implements OnDestroy {
-  private subscriptions: Subscription = new Subscription();
+  private subscriptions$: Subject<void> = new Subject<void>();
 
   constructor(private http: HttpClient, private profileservise: ProfileService) { }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    this.subscriptions$.next();
+    this.subscriptions$.complete();
   }
 
   public buildUserData(): Observable<IUserInfo> {
@@ -53,7 +54,9 @@ export class UserInfoBuilder implements OnDestroy {
     forkJoin({
       schoolCityTitles: forkJoin(vkUserInfo.schools.map((school) => this.profileservise.getCityTitle(+school.city))),
       careerCityTitles: forkJoin(vkUserInfo.career.map((job) => this.profileservise.getCityTitle(job.city_id)))
-    }).subscribe(({ schoolCityTitles, careerCityTitles }) => {
+    })
+    .pipe(takeUntil(this.subscriptions$))
+    .subscribe(({ schoolCityTitles, careerCityTitles }) => {
       for (let i = 0; i < schoolCityTitles.length; i++) {
         vkUserInfo.schools[i].cityTitle = schoolCityTitles[i];
       }
