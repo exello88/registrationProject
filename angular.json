@@ -30,7 +30,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/primeng-style.scss"
             ],
             "scripts": []
           },
@@ -44,8 +45,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "10kb",
+                  "maximumError": "10kb"
                 }
               ],
               "outputHashing": "all"
@@ -93,7 +94,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/primeng-style.scss"
             ],
             "scripts": []
           }

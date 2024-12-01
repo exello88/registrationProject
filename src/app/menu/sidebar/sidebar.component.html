@@ -1,9 +1,23 @@
-<div class="blur-for-mobile" *ngIf="smallScreen && activeSidebar"></div>
+<div [class.blur-for-mobile]="smallScreen && activeSidebar" appSidebar></div>
 
 <div class="sidebar" [class.sidebar-active-for-mobile]="smallScreen"
     *ngIf="(smallScreen && activeSidebar) || !smallScreen">
-    <div class="sidebar-item" *ngFor="let item of sidebarItems">
-        <p class="pi" [ngClass]="item.imgClass"></p>
-        <p class="sidebar-item__text">{{ item.text }}</p>
+    <div class=" sidebar-item sidebar-item__my-page" [class.sidebar-item-active]="activePage === 'Моя страница'"
+        *ngIf="smallScreen" (click)="navigateToUser($event)">
+        <div class="sidebar-item__ava">
+            <img src="{{avaUrl}}" alt="">
+        </div>
+        <div class="sidebar-item-text-field">
+            <p class="sidebar-item-text-field__name">{{name}}</p>
+            <p class="sidebar-item-text-field__description">Моя страница</p>
+        </div>
+
+        <span class="pi pi-angle-right"></span>
     </div>
+    <ng-container *ngFor="let item of sidebarItems">
+        <div class="sidebar-item" [class.sidebar-item-active]="activePage === item.text" *ngIf = "!smallScreen || !item.hideOnSmallScreen">
+            <p class="pi" [ngClass]="item.imgClass"></p>
+            <p class="sidebar-item__text">{{ item.text }}</p>
+        </div>
+    </ng-container>
 </div>

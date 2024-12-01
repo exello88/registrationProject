@@ -1,0 +1,101 @@
+<div class="profile" (click)="moreInfoActive.emit(false)" *ngIf="activitiesAvailable">
+    <div class="profile-info" (click)="$event.stopPropagation()">
+        <div class="profile-info-block">
+            <p class="profile-info-block__main-title">Подробная информация</p>
+        </div>
+
+        <div class="profile-info-main-divide"></div>
+
+        <div class="profile-info-block" *ngIf="userInfo.status">
+            <p class="pi pi-align-left"></p>
+            <p class="profile-info-block__status">{{userInfo.status}}</p>
+        </div>
+        <div class="profile-info-block">
+            <p class="pi pi-at"></p>
+            <p class="profile-info-block__title">id{{userInfo.id}}</p>
+        </div>
+
+        <div class="profile-info-divide"></div>
+
+        <div class="profile-info-block" *ngIf="userInfo.bdate">
+            <p class="pi pi-gift"></p>
+            <p class="profile-info-block__desctiption" *ngIf="userInfo.bdate">День рождения:</p>
+            <p class="profile-info-block__title">{{userInfo.bdate}}</p>
+        </div>
+        <div class="profile-info-block" *ngIf="userInfo.city">
+            <p class="pi pi-home"></p>
+            <p class="profile-info-block__desctiption">Город:</p>
+            <p class="profile-info-block__title">{{userInfo.city}}</p>
+        </div>
+        <div class="profile-info-block" *ngIf="userInfo.career[0] || userInfo.schools[0] || userInfo.universityName">
+            <p class="pi pi-briefcase"></p>
+            <p class="profile-info-block__desctiption" *ngIf="!userInfo.career[0]">Место учебы:</p>
+            <p class="profile-info-block__desctiption" *ngIf="userInfo.career[0]">Место работы:</p>
+            <p class="profile-info-block__title" *ngIf="userInfo.career[0]">
+                {{userInfo.career[0].company}}</p>
+            <p class="profile-info-block__title" *ngIf="!userInfo.career[0] && userInfo.universityName">
+                {{userInfo.universityName}}</p>
+            <p class="profile-info-block__title"
+                *ngIf="!userInfo.career[0] && !userInfo.universityName && userInfo.schools[0]">
+                {{userInfo.schools[0].name}}</p>
+        </div>
+
+        <div class="profile-info-divide"></div>
+
+        <p class="profile-info__main-title" *ngIf="userInfo.career[0]">Место работы:</p>
+        <div class="profile-info-block profile-info-block-no-icon" *ngFor="let job of userInfo.career">
+            <p class="profile-info-block__main-desctiption">Место работы:</p>
+            <div>
+                <p class="profile-info-block__title profile-info-block-no-icon__main-title">{{job.company}}</p>
+                <div class="profile-info-block-description-field">
+                    <p class="profile-info-block__desctiption profile-info-block-no-icon__desctiption"
+                        *ngIf="job.cityTitle">{{job.cityTitle}}</p>
+                    <p class="profile-info-block__desctiption profile-info-block-no-icon__desctiption"
+                        *ngIf="job.from && !job.until">
+                        (с {{job.from}})</p>
+                    <p class="profile-info-block__desctiption profile-info-block-no-icon__desctiption"
+                        *ngIf="job.from && job.until">
+                        (в {{job.until}})</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-info-divide" *ngIf="userInfo.career[0]"></div>
+
+        <p class="profile-info__main-title" *ngIf="userInfo.universityName || userInfo.schools[0]">
+            Образование:</p>
+        <div class="profile-info-block profile-info-block-no-icon" *ngIf="userInfo.universityName">
+            <p class="profile-info-block__main-desctiption">Вуз:</p>
+            <div>
+                <p class="profile-info-block__title profile-info-block-no-icon__main-title">{{userInfo.universityName}}
+                </p>
+            </div>
+        </div>
+
+        <div class="profile-info-block profile-info-block-no-icon" *ngFor="let school of userInfo.schools">
+            <p class="profile-info-block__main-desctiption">Школа:</p>
+            <div>
+                <p class="profile-info-block__title profile-info-block-no-icon__main-title">{{school.name}}</p>
+                <p class="profile-info-block__desctiption profile-info-block-no-icon__desctiption" *ngIf="school.city">
+                    {{school.cityTitle}}</p>
+            </div>
+        </div>
+
+        <div class="profile-info-divide" *ngIf="userInfo.universityName || userInfo.schools[0]"></div>
+
+        <div class="profile-info-activity">
+            <div class="profile-info-activity-block">
+                <p class="profile-info-activity-block__count">{{subscribeCount}}</p>
+                <p class="profile-info-activity-block__title">Подписок</p>
+            </div>
+            <div class="profile-info-activity-block">
+                <p class="profile-info-activity-block__count">{{followersCount}}</p>
+                <p class="profile-info-activity-block__title">Подписчиков</p>
+            </div>
+            <div class="profile-info-activity-block">
+                <p class="profile-info-activity-block__count">{{friendsCount}}</p>
+                <p class="profile-info-activity-block__title">Друзей</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,94 @@
-<app-header (activeSidebarEmit)="changeActiveSidebar($event)"></app-header>
-<div class="profile">
-    <app-sidebar [activeSidebar]="activeSidebar"></app-sidebar>
+<app-header *ngIf="userInfo"></app-header>
+<div class="profile" *ngIf="userInfo">
+    <app-sidebar [activePage]="'Моя страница'"></app-sidebar>
+
+    <div class="profile-field">
+        <div class="profile-field-header" *ngIf="userInfo">
+            <div class="profile-field-header__cover" *ngIf="userInfo.cover.url">
+                <img src="{{userInfo.cover.url}}" alt="">
+
+                <p-dropdown [options]="changeActions" optionLabel="title" [showClear]="true" placeholder=""
+                    class="profile-field-header__cover-button">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="profile-field-header__cover-button-label">
+                            <span class="pi pi-pencil"></span>
+                            <p>Изменить обложку</p>
+                        </div>
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        <div class="p-dropdown-item">
+                            <span [ngClass]="'pi ' + item.icon"></span>
+                            <p>{{ item.title }}</p>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
+            <div class="profile-field-header-content"
+                [class.profile-field-header-content-with-cover]="userInfo.cover.url">
+                <div class="profile-field-header-content__photo"
+                    [class.profile-field-header-content-with-cover__photo]="userInfo.cover.url">
+                    <img src="{{userInfo.photo}}" alt="">
+                </div>
+
+                <div class="profile-field-header-content__user-info"
+                    [class.profile-field-header-content-with-cover__user-info]="userInfo.cover.url">
+                    <p class="profile-field-header-content__user-info__name">{{userInfo.name}}</p>
+                    <p class="profile-field-header-content__user-info__status">{{userInfo.status}}</p>
+                    <div class="profile-field-header-content__user-info-details">
+                        <p class="pi pi-map-marker" *ngIf="userInfo.city"></p>
+                        <p class="profile-field-header-content__user-info-details__title" *ngIf="userInfo.city">
+                            {{userInfo.city}}</p>
+
+                        <p class="pi pi-briefcase"
+                            *ngIf="userInfo.career[0] || userInfo.schools[0] || userInfo.universityName">
+                        </p>
+                        <p class="profile-field-header-content__user-info-details__title" *ngIf="userInfo.career[0]">
+                            {{userInfo.career[0].company}}</p>
+                        <p class="profile-field-header-content__user-info-details__title"
+                            *ngIf="!userInfo.career[0] && userInfo.universityName">
+                            {{userInfo.universityName}}</p>
+                        <p class="profile-field-header-content__user-info-details__title"
+                            *ngIf="!userInfo.career[0] && !userInfo.universityName && userInfo.schools[0]">
+                            {{userInfo.schools[0].name}}</p>
+
+                        <p class="pi pi-info-circle"></p>
+                        <p class="profile-field-header-content__user-info-details__title profile-field-header-content__user-info-details__more"
+                            (click)="changeActiveMoreInfo()">
+                            Подробнее</p>
+
+                        <app-profile-info (moreInfoActive)="moreInfoActiveEmit()" [userInfo]="userInfo" [token]="token"
+                            *ngIf="moreInfoActive"></app-profile-info>
+                    </div>
+                    <p-button class="profile-field-header-content__publish">
+                        <ng-template pTemplate>
+                            <span class="pi pi-plus"></span>
+                            <p>Опубликовать</p>
+                        </ng-template>
+                    </p-button>
+                </div>
+
+                <div class="profile-field-header-content-button-field"
+                    [class.profile-field-header-content-button-field-with-cover]="userInfo.cover.url">
+                    <p-button label="Редактировать профиль"></p-button>
+                    <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder=""
+                        class="dropdown">
+                        <ng-template pTemplate="selectedItem">
+                            <div class="p-dropdown-main">
+                                <p>Ещё</p>
+                                <span class="pi pi-angle-down"></span>
+                            </div>
+                        </ng-template>
+                        <ng-template let-item pTemplate="item">
+                            <div class="p-dropdown-item">
+                                <span [ngClass]="'pi ' + item.icon"></span>
+                                <p>{{ item.title }}</p>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<app-tabbar class="tabbar"></app-tabbar>

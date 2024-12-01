@@ -1,52 +1,26 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface ISidebarItem {
-      imgClass: string,
-      text: string
+  imgClass: string,
+  text: string,
+  hideOnSmallScreen?: boolean
 }
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class MenuService {
-  public sidebarItems : ISidebarItem[] = [
-    {
-      imgClass: 'pi-user',
-      text: 'Моя страница'
-    },
-    {
-      imgClass: 'pi-globe',
-      text: 'Новости'
-    },
-    {
-      imgClass: 'pi-envelope',
-      text: 'Мессенджер'
-    },
-    {
-      imgClass: 'pi-phone',
-      text: 'Звонки'
-    },
-    {
-      imgClass: 'pi-users',
-      text: 'Друзья'
-    },
-    {
-      imgClass: 'pi-id-card',
-      text: 'Сообщества'
-    },
-    {
-      imgClass: 'pi-image',
-      text: 'Фотографии'
-    },
-    {
-      imgClass: 'pi-play',
-      text: 'Музыка'
-    },
-    {
-      imgClass: 'pi-video',
-      text: 'Видео'
-    }
-  ];
-  
+  private activeSidebar$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor() { }
+
+  set setSidebarActivities(status: boolean) {
+    this.activeSidebar$.next(status);
+  }
+
+  get getSidebarActivities(): Observable<boolean> {
+    return this.activeSidebar$.asObservable();
+  }
 }

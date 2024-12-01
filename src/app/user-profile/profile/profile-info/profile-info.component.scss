@@ -1,0 +1,189 @@
+@import '../../../_variables.scss';
+
+.profile {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 3;
+
+    &-info {
+        position: relative;
+        width: 35vw;
+        background-color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        z-index: 3;
+
+        &-divide,
+        &-main-divide {
+            width: 100%;
+            height: 1px;
+            border: 1px solid $border-color;
+        }
+
+        &-main-divide {
+            width: calc(100% + 20px);
+            margin-left: -10px;
+            margin-top: 10px;
+        }
+
+        &__main-title{
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        &-block {
+            display: flex;
+            padding-left: 5px;
+
+            p {
+                word-wrap: break-word;
+                display: flex;
+                align-items: center;
+            }
+
+            .pi,
+            &__desctiption,
+            &__title-desctiption,
+            &__main-desctiption {
+                color: $subtext-color;
+                font-size: 17px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            .pi {
+                margin-right: 10px;
+            }
+
+            &__title,
+            &__status {
+                font-size: 13px;
+                font-weight: 400;
+                margin-left: 5px;
+            }
+
+            &__title {
+                margin-top: 13px;
+                color: $text-with-link-color;
+                border-bottom: 1px solid transparent;
+                transition: border-color 0.2s;
+                cursor: pointer;
+                white-space: nowrap;
+
+                &:hover {
+                    border-color: $text-with-link-color;
+                }
+            }
+
+            &__main-title {
+                font-size: 14px;
+                font-weight: 400;
+                margin: 10px 5px;
+            }
+
+            &__desctiption {
+                font-size: 13px;
+                margin-top: 0;
+                margin-left: 5px;
+                margin-bottom: 0;
+                white-space: nowrap;
+            }
+
+            &__main-desctiption{
+                font-size: 13px;
+                margin-left: 0;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            &-description-field {
+                display: flex;
+            }
+        }
+
+        &-block-no-icon {
+            padding-bottom: 5px;
+            display: grid;
+            grid-template-columns: 150px min-content;
+            
+
+            p {
+                display: grid;
+                align-items: stretch;
+            }
+
+            &__main-title {
+                margin-bottom: 0px;
+                margin-top: 5px;
+            }
+
+            &__desctiption {
+                margin-top: 0px;
+            }
+        }
+
+        &-activity {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-around;
+
+            p {
+                margin: 5px;
+            }
+
+            &-block {
+                &__count {
+                    display: flex;
+                    justify-content: center;
+                    font-size: 25px;
+                    font-weight: 600;
+                }
+
+                &__title {
+                    font-size: 15px;
+                    color: $subtext-color;
+                }
+            }
+        }
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .profile {
+        &-info {
+            width: 40vw;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .profile {
+        &-info {
+            width: 70vw;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-info {
+        width: 90vw;
+        &-activity {
+            &-block {
+                &__count {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}

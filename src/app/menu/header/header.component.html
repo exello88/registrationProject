@@ -4,12 +4,37 @@
     </div>
 
     <div class="header-options">
+        <span class="pi pi-search header-options__input-icon"></span>
         <p-autoComplete styleClass="header-options__input" placeholder="Поиск"></p-autoComplete>
+
         <span class="pi pi-bell"></span>
         <span class="pi pi-video"></span>
     </div>
 
-    <div class="header-image" (click)="changeActiveSidebar()">
-        <img src="assets/testAva.png">
+    <div class="header-image" *ngIf="avaUrl">
+        <img src="{{avaUrl}}">
+    </div>
+</div>
+
+<div class="header-mobile" appHideOnScroll (scrollWatcher)="scrollWatcher = $event">
+    <span class="pi pi-arrow-left"></span>
+
+    <p class="header-mobile__id" *ngIf="!scrollWatcher">Id{{id}}</p>
+
+    <div class="header-mobile-right">
+        <span class="pi pi-th-large"></span>
+        <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder="" class="dropdown">
+            <ng-template pTemplate="selectedItem">
+                <div class="p-dropdown-main">
+                    <span class="pi pi-ellipsis-h"></span>
+                </div>
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                <div class="p-dropdown-item">
+                    <span [ngClass]="'pi ' + item.imgClass"></span>
+                    <p>{{ item.text }}</p>
+                </div>
+            </ng-template>
+        </p-dropdown>
     </div>
 </div>

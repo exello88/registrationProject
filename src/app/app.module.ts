@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthorizationModule } from './authorization/authorization.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { MenuModule } from './menu/menu.module';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { MenuModule } from './menu/menu.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     AuthorizationModule,
     UserProfileModule,
