@@ -4,6 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { UserInfoBuilder } from '../../user-info.builder';
 import { HttpClient } from '@angular/common/http';
 import { user } from 'src/app/session-data';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-info',
@@ -19,11 +20,11 @@ export class ProfileInfoComponent implements OnInit, OnDestroy {
   public activitiesAvailable: boolean = false;
 
   private subscriptions$: Subject<void> = new Subject<void>();
-  private userInfoBuilder: UserInfoBuilder = new UserInfoBuilder(this.http, this.profileSevice);
+  private userInfoBuilder: UserInfoBuilder = new UserInfoBuilder(this.http, this.profileSevice, this.route);
 
   @Output() moreInfoActive = new EventEmitter<boolean>();
 
-  constructor(private http: HttpClient, private profileSevice: ProfileService) { }
+  constructor(private http: HttpClient, private profileSevice: ProfileService, private route: Router) { }
 
   ngOnInit() {
     this.getUserActivities();

@@ -1,0 +1,13 @@
+{
+    "/vk-api": {
+      "target": "https://api.vk.com/",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/vk-api": ""
+      },
+      "headers": {
+        "Cache-Control": "no-cache"
+      }
+    }
+  }

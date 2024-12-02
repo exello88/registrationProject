@@ -1,0 +1,123 @@
+<div class="overlay" *ngIf="smallScreen && (commentsShowStatus || (modalStatus && commentsModelShowStatus))" (click)="changeStatus()"></div>
+
+<div [class.comment-in-modal]="modalStatus" [class.comment-in-small-screen]="smallScreen"
+    *ngIf="!smallScreen || (smallScreen && (commentsShowStatus || commentsModelShowStatus))">
+    <div class="comment-in-small-screen-title" *ngIf="smallScreen">
+        <p class="comment-in-small-screen-title__text">Комментарии</p>
+    </div>
+    <div class="comment" *ngFor="let comment of showComments; let i = index">
+        <div class="comment-block" (click)="replyName.emit('Id' + comment.ownerId + ', ')">
+            <div class="comment-block-ava">
+                <img src="assets/tes.png" alt="">
+            </div>
+            <div class="comment-block-text">
+                <p class="comment-block-text__owner" [class.comment-block-text__owner-modal]="modalStatus">
+                    Id{{comment.ownerId}}</p>
+                <div class="comment-block-text-comment">
+                    <p *ngIf="comment.text.from">{{comment.text.from}},</p>
+                    <p>{{comment.text.text}}</p>
+                </div>
+                <div class="comment-block-text-activity">
+                    <p class="comment-block-text-activity__time">{{comment.date}}</p>
+                    <p *ngIf="!modalStatus">Ответить</p>
+                    <p *ngIf="!modalStatus">Поделиться</p>
+                </div>
+            </div>
+            <div class="comment-block-activity">
+                <span class="pi pi-times"></span>
+                <div class="comment-block-activity-likes">
+                    <span class="pi pi-heart"></span>
+                    <p *ngIf="comment.likes!==0">{{comment.likes}}</p>
+                </div>
+            </div>
+        </div>
+        <p class="comment-title-replies"
+            *ngIf="comment.replies && comment.replies.length>commentsToShow && !comment.showReplies"
+            (click)="changeCommentRepliesShow(comment)">Показать все ответы</p>
+
+        <div class="comment-replies-block__devide" *ngIf="i !== showComments.length - 1 && !modalStatus"></div>
+
+
+        <div class="comment-replies"
+            *ngIf="(comment.replies && commentsToShow > comment.replies.length) || comment.showReplies">
+            <div class="comment-replies-block" *ngFor="let commentReplies of comment.replies; let j = index"
+                (click)="'Id' + commentReplies.ownerId + ', '">
+
+                <div class="comment-replies-block-ava">
+                    <img src="assets/tes.png" alt="">
+                </div>
+                <div class="comment-replies-block-text">
+                    <div class="comment-replies-block-text-name">
+                        <p class="comment-replies-block-text-name__owner"
+                            [class.comment-replies-block-text-name__owner-modal]="modalStatus">
+                            Id{{commentReplies.ownerId}}</p>
+                        <p class="comment-replies-block-text-name__from" *ngIf="modalStatus">
+                            Id{{commentReplies.fromId}}
+                        </p>
+                    </div>
+                    <div class="comment-replies-block-text-comment">
+                        <p class="comment-replies-block-text-comment__from" *ngIf="commentReplies.text.from">
+                            {{commentReplies.text.from}}</p>
+                        <p *ngIf="commentReplies.text.from">,</p>
+                        <p>{{commentReplies.text.text}}</p>
+                    </div>
+                    <div class="comment-replies-block-text-activity">
+                        <p class="comment-replies-block-text-activity__time">{{commentReplies.date}}</p>
+                        <p *ngIf="!modalStatus">Ответить</p>
+                        <p *ngIf="!modalStatus">Поделиться</p>
+                    </div>
+                </div>
+                <div class="comment-replies-block-activity">
+                    <span class="pi pi-times"></span>
+                    <div class="comment-replies-block-activity-likes">
+                        <span class="pi pi-heart"></span>
+                        <p *ngIf="commentReplies.likes !== 0">{{commentReplies.likes}}</p>
+                    </div>
+                </div>
+                <div class="comment-replies-block__devide"
+                    *ngIf="(comment.replies && j!==comment.replies.length - 1 || modalStatus)">
+                </div>
+            </div>
+        </div>
+
+        <div class="comment-replies-input" *ngIf="comment.replies && comment.replies.length!==0 && !modalStatus &&
+        ((commentsToShow > comment.replies.length) || comment.showReplies)">
+            <div class="comment-replies-input__img">
+                <img src="{{userInfo.photo}}">
+            </div>
+
+            <div class="comment-replies-input-field">
+                <input type="text" pInputText placeholder="Написать комментарий..." />
+
+                <div class="comment-replies-input-field-icon">
+                    <span class="pi pi-paperclip"></span>
+                    <span class="pi pi-camera"></span>
+                    <span class="pi pi-palette"></span>
+                </div>
+            </div>
+
+            <span class="pi pi-send" *ngIf="!smallScreen"></span>
+        </div>
+    </div>
+
+    <p class="comment-title" (click)="loadMoreComments()" *ngIf="comments.length > showComments.length">Показать
+        следующие комментарии</p>
+
+    <div class="comment-input">
+        <div class="comment-input__img">
+            <img src="{{userInfo.photo}}">
+        </div>
+
+        <div class="comment-input-field">
+            <input type="text" pInputText placeholder="Написать комментарий..." />
+
+            <div class="comment-input-field-icon">
+                <span class="pi pi-paperclip"></span>
+                <span class="pi pi-camera"></span>
+                <span class="pi pi-palette"></span>
+            </div>
+        </div>
+
+        <span class="pi pi-send"></span>
+    </div>
+</div>

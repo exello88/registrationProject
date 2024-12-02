@@ -23,7 +23,7 @@ export class AuthorizationService {
   }
 
   private getLinksForLogin(source: OAuth, sourceName: string): string {
-    return `client_id=${source.appId}&redirect_uri=${source.redirectUri + `?source=${sourceName}`}&scope=users,friends,groups&v=5.199`;
+    return `client_id=${source.appId}&redirect_uri=${source.redirectUri + `?source=${sourceName}`}&scope=users,friends,groups,wall,groups,offline&v=5.199`;
   };
 
   private localStorageTokenclear(key: string): void {

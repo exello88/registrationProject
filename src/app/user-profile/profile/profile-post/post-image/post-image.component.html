@@ -1,0 +1,126 @@
+<div class="overlay" (click)="changeActivitiesComponent()">
+    <div class="overlay-content" (click)="$event.stopPropagation()" *ngIf="!smallScreen">
+        <div class="overlay-content-img" appSlider [appSlider]="imgUrl" #sliderDirective="appSlider">
+            <div class="overlay-content-img-container slider-container"
+                [class.overlay-content-img__with-slider]="imgUrl.length !== 1">
+                <img src="{{image.url}}" *ngFor="let image of imgUrl">
+            </div>
+
+            <span class="overlay-content-img-btn pi pi-chevron-left"
+                *ngIf="imgUrl.length > 1 && sliderDirective.canMovePrev()" (click)="sliderDirective.prev(true)"></span>
+
+            <span class="overlay-content-img-btn pi pi-chevron-right"
+                *ngIf="imgUrl.length > 1 && sliderDirective.canMoveNext()" (click)="sliderDirective.next(true)"></span>
+
+            <div class="overlay-content-img-change">
+                <p>Поделиться</p>
+                <span>•</span>
+                <p>Отметить человека</p>
+                <span>•</span>
+                <p>Удалить</p>
+                <span>•</span>
+                <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder=""
+                    class="overlay-content-img-change-dropdown">
+                    <ng-template pTemplate="selectedItem">
+                        <p>Ещё</p>
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+                        <div class="p-dropdown-item">
+                            <span [ngClass]="'pi ' + item.icon"></span>
+                            <p>{{ item.title }}</p>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+        </div>
+
+        <div>
+            <div class="overlay-content-info">
+
+                <div class="overlay-content-info-user">
+                    <div class="overlay-content-info-user__img">
+                        <img src="{{avaUrl}}">
+                    </div>
+                    <div class="overlay-content-info-user-about">
+                        <p class="overlay-content-info-user-about__name">{{name}}</p>
+                        <p class="overlay-content-info-user-about__time">{{date}}</p>
+                    </div>
+                </div>
+
+                <div class="overlay-content-info__devide"></div>
+
+                <div class="overlay-content-info-activities">
+                    <div class="overlay-content-info-activities__icon">
+                        <span class="pi pi-heart"></span>
+                        <span class="pi pi-send"></span>
+                    </div>
+                    <input type="text" pInputText placeholder="Редактировать описание" />
+                </div>
+
+                <div class="overlay-content-info__devide"></div>
+
+                <div class="overlay-content-info-no-comments" *ngIf="comments.length === 0">
+                    <div class="overlay-content-info-no-comments-none">
+                        <span class="pi pi-comments"></span>
+                        <p class="overlay-content-info-no-comments-none__title">Оставьте первый коментарий к этой
+                            фотографии
+                        </p>
+                    </div>
+                </div>
+
+                <div class="overlay-content-info-comments" *ngIf="comments.length !== 0">
+                    <app-profile-comments [comments]="comments" [commentsToShow]="comments.length" [modalStatus]="true"
+                        (replyName)="changeInputText($event)"></app-profile-comments>
+                </div>
+            </div>
+            <div class="overlay-content-input">
+                <img src="{{avaUrl}}">
+                <input type="text" [(ngModel)]="inputText" pInputText placeholder="Редактировать описание" />
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay-mobile-screen" (click)="$event.stopPropagation()" *ngIf="smallScreen">
+        <div class="overlay-mobile-screen-menu">
+            <span class="pi pi-chevron-left" (click)="changeActivitiesComponent()"></span>
+
+            <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder=""
+                class="overlay-mobile-screen-menu-dropdown">
+                <ng-template pTemplate="selectedItem">
+                    <span class="pi pi-ellipsis-h"></span>
+                </ng-template>
+                <ng-template let-item pTemplate="item">
+                    <div class="p-dropdown-item">
+                        <span [ngClass]="'pi ' + item.icon"></span>
+                        <p>{{ item.title }}</p>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+
+        <div class="overlay-mobile-screen-img" appSlider [appSlider]="imgUrl" #sliderDirective="appSlider">
+            <div class="overlay-mobile-screen-img-container slider-container"
+                [class.overlay-mobile-screen-menu-img__with-slider]="imgUrl.length !== 1">
+                <img src="{{image.url}}" *ngFor="let image of imgUrl">
+            </div>
+
+            <span class="overlay-mobile-screen-img-btn pi pi-chevron-left"
+                *ngIf="imgUrl.length > 1 && sliderDirective.canMovePrev()" (click)="sliderDirective.prev(true)"></span>
+
+            <span class="overlay-mobile-screen-img-btn pi pi-chevron-right"
+                *ngIf="imgUrl.length > 1 && sliderDirective.canMoveNext()" (click)="sliderDirective.next(true)"></span>
+        </div>
+
+        <div class="overlay-mobile-screen-activity">
+            <span class="pi pi-heart"></span>
+            <span class="pi pi-comment" (click)="showComments = !showComments"></span>
+            <span class="pi pi-send"></span>
+        </div>
+
+        <div class="overlay-mobile-screen-comments" *ngIf="comments.length !== 0 ">
+            <app-profile-comments [comments]="comments" [smallScreen]="smallScreen" [commentsToShow]="comments.length"
+                [modalStatus]="true" [commentsModelShowStatus]="showComments"
+                (replyName)="changeInputText($event)"></app-profile-comments>
+        </div>
+    </div>
+</div>
