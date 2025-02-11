@@ -1,0 +1,84 @@
+<div class="post" appCheckSize>
+    <div class="post-header">
+        <div class="post-header__img">
+            <img src="assets/tes.png">
+        </div>
+        <div class="post-header-info">
+            <p class="post-header-info__name">Id{{postInfo.ownerID}}</p>
+            <p class="post-header-info__time">{{postInfo.date}}</p>
+        </div>
+
+        <p-dropdown class="post-header-dropdown" [options]="daleteActions" optionLabel="title" [showClear]="true"
+            placeholder="">
+            <ng-template pTemplate="selectedItem">
+                <div class="">
+                    <span class="pi pi-ellipsis-h"></span>
+                </div>
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                <div class="p-dropdown-item">
+                    <p>{{ item }}</p>
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="post-content">
+        <p class="post-content__text">{{postInfo.text}}</p>
+        <div class="post-content__img" appSlider [appSlider]="postInfo.photoURL" #sliderDirective="appSlider">
+            <div class="post-content__img-slider slider-container">
+                <img src="{{image.url}}" *ngFor="let image of postInfo.photoURL"
+                    [class.post-content__img-with-slider]="postInfo.photoURL.length !== 1"
+                    (click)=" fullScreenActivities = !fullScreenActivities ">
+            </div>
+
+            <app-post-image *ngIf="fullScreenActivities" [imgUrl]="postInfo.photoURL" [comments]="comments"
+                [date]="postInfo.date" [avaUrl]="photo" [name]="name" [smallScreen]="smallScreen"></app-post-image>
+
+            <span class="post-content__img-btn pi pi-angle-left"
+                *ngIf="postInfo.photoURL.length > 1 && sliderDirective.canMovePrev()"
+                (click)="sliderDirective.prev()"></span>
+
+            <span class="post-content__img-btn pi pi-angle-right"
+                *ngIf="postInfo.photoURL.length > 1 && sliderDirective.canMoveNext()"
+                (click)="sliderDirective.next()"></span>
+        </div>
+
+
+    </div>
+
+    <div class="post-activities">
+        <div class="post-activities-block">
+            <span class="pi pi-heart"></span>
+            <p class="post-activities-block__count" *ngIf="postInfo.likeCount !== 0">{{postInfo.likeCount}}</p>
+        </div>
+        <div class="post-activities-block" (click)="commentsShowStatus = !commentsShowStatus">
+            <span class="pi pi-comment"></span>
+            <p class="post-activities-block__count" *ngIf="postInfo.commentsCount !== 0">{{postInfo.commentsCount}}</p>
+        </div>
+        <div class="post-activities-block">
+            <span class="pi pi-send"></span>
+            <p class="post-activities-block__count" *ngIf="postInfo.repostsCount !== 0">{{postInfo.repostsCount}}</p>
+        </div>
+    </div>
+
+    <div class="post__devide" *ngIf="comments.length !== 0 && !smallScreen"></div>
+
+    <div class="post-comment" *ngIf="comments.length !== 0">
+        <p-dropdown [options]="moreActions" optionLabel="title" [showClear]="true" placeholder=""
+            *ngIf="comments.length > 2 && !smallScreen">
+            <ng-template pTemplate="selectedItem">
+                <div class="post-comment__dropdown-label">
+                    <p>Сначала интересные</p>
+                    <span class="pi pi-angle-down"></span>
+                </div>
+            </ng-template>
+            <ng-template let-item pTemplate="item">
+                <div class="p-dropdown-item">
+                    <p>{{ item }}</p>
+                </div>
+            </ng-template>
+        </p-dropdown>
+        <app-profile-comments [comments]="comments" [commentsToShow]="3" [smallScreen]="smallScreen" [commentsShowStatus]="commentsShowStatus"></app-profile-comments>
+    </div>
+</div>

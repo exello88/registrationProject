@@ -8,13 +8,25 @@ import { ProfileInfoComponent } from './profile/profile-info/profile-info.compon
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { ProfilePostComponent } from './profile/profile-post/profile-post.component';
+import { PostImageComponent } from './profile/profile-post/post-image/post-image.component';
+import { ProfileCommentsComponent } from './profile/profile-post/profile-comments/profile-comments.component';
+import { SliderDirective } from './profile/profile-post/slider.directive';
+import { CheckSizeDirective } from './profile/check-size.directive';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
-    ProfileInfoComponent
+    ProfileInfoComponent,
+    ProfilePostComponent,
+    PostImageComponent,
+    ProfileCommentsComponent,
+    SliderDirective,
+    CheckSizeDirective
   ],
   imports: [
     CommonModule,
@@ -24,7 +36,9 @@ import { FormsModule } from '@angular/forms';
     userProfileRoutingModule,
     MenuModule,
     ButtonModule,
-    DropdownModule
+    DropdownModule,
+    InputTextModule,
+    ProgressSpinnerModule
   ]
 })
 export class UserProfileModule { }

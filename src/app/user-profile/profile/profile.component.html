@@ -89,6 +89,75 @@
                 </div>
             </div>
         </div>
+
+        <div class="profile-field-main" [class.profile-field-main-hidden]="postsProcessed !== postsToShow.length">
+            <div class="profile-field-main-left">
+                <div class="profile-field-main-left__input">
+                    <div class="profile-field-main-left__input-img">
+                        <img src="{{userInfo.photo}}">
+                    </div>
+                    <input type="text" pInputText placeholder="Что у вас нового?" />
+                    <div class="profile-field-main-left__input-icons">
+                        <span class="pi pi-camera"></span>
+                        <span class="pi pi-chevron-circle-right"></span>
+                        <span class="pi pi-bell"></span>
+                        <span class="pi pi-align-right"></span>
+                        <span class="pi pi-bell"></span>
+                    </div>
+                </div>
+
+
+                <div class="profile-field-main-left-posts">
+                    <div class="profile-field-main-left-posts-header">
+                        <div class="profile-field-main-left-posts-header-blocks" *ngIf="postsInputActive">
+                            <div class="profile-field-main-left-posts-header-blocks__block"
+                                [class.profile-field-main-left-posts-header-blocks__active-block]="activePostsItem === postsItems.allPosts"
+                                (click)="changeModePostsAll()">
+                                <p class="profile-field-main-left-posts-header__block-title">{{postsItems.allPosts}}</p>
+                            </div>
+                            <div class="profile-field-main-left-posts-header-blocks__block"
+                                [class.profile-field-main-left-posts-header-blocks__active-block]="activePostsItem === postsItems.myPosts"
+                                (click)="changeModePostsMy()">
+                                <p class="profile-field-main-left-posts-header__block-title">{{postsItems.myPosts}}</p>
+                            </div>
+                            <div class="profile-field-main-left-posts-header-blocks__block"
+                                [class.profile-field-main-left-posts-header-blocks__active-block]="activePostsItem === postsItems.archivePosts"
+                                (click)="changeModePostsArchived()">
+                                <p class="profile-field-main-left-posts-header__block-title">{{postsItems.archivePosts}}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="profile-field-main-left-posts-header-input" *ngIf="!postsInputActive">
+                            <span class="pi pi-search" (click)="searchPosts()"></span>
+                            <input type="text" [(ngModel)]="inputSerchText" pInputText
+                                placeholder="Введите фразу или слово" (keyup.enter)="searchPosts()" />
+                        </div>
+                        <span class="pi" [class.pi-search]="postsInputActive" [class.pi-times]="!postsInputActive"
+                            (click)="postsInputActive = !postsInputActive; changeModePostsAll()"></span>
+                    </div>
+                    <div class="profile-field-main-left-posts__devide"></div>
+
+                    <div class="profile-field-main-left-posts-field" *ngIf="postsToShow.length!==0">
+                        <app-profile-post *ngFor="let post of postsToShow" [postInfo]="post" [photo]="userInfo.photo"
+                            [name]="userInfo.name"></app-profile-post>
+                    </div>
+
+                    <div class="profile-field-main-left-posts-absence" *ngIf="postsToShow.length===0">
+                        <span class="pi pi-tablet"
+                            *ngIf="activePostsItem === postsItems.allPosts || activePostsItem === postsItems.myPosts"></span>
+                        <span class="pi pi-history" *ngIf="activePostsItem === postsItems.archivePosts"></span>
+                        <p *ngIf="activePostsItem === postsItems.allPosts || activePostsItem === postsItems.myPosts">
+                            Пока нет ни одного поста</p>
+                        <p *ngIf="activePostsItem === postsItems.archivePosts">В архиве нет ни одного поста</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="profile-field-main-right"></div>
+        </div>
+
+        <p-progressSpinner class="profile-field__loader" *ngIf="postsProcessed !== postsToShow.length"/>
     </div>
 </div>
 <app-tabbar class="tabbar"></app-tabbar>

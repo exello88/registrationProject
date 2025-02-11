@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthSource, localStorageKeys } from 'src/app/enum';
-import { IUserInfo, ProfileService } from '../profile.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Route, Router } from '@angular/router';
+import { AuthSource, localStorageKeys, VkPostMenuItems } from 'src/app/enum';
+import { IPosts, IPostsItems, IUserInfo, ProfileService } from '../profile.service';
+import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { UserInfoBuilder } from '../user-info.builder';
 import { user, VKTokens } from 'src/app/session-data';
 
-interface IAction {
+export interface IAction {
   title: string,
   icon: string
 }
@@ -31,20 +31,28 @@ const changeActions: IAction[] = [
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  public token!: string;
-  public moreInfoActive: boolean = false;
-  public userInfo!: IUserInfo;
   public moreActions: IAction[] = moreActions;
   public changeActions: IAction[] = changeActions;
+  public postsToShow!: IPosts[];
   public selectedAction: IAction = { title: '', icon: '' };
+  public postsItems!: IPostsItems;
+  public userInfo!: IUserInfo;
+  public token!: string;
+  public activePostsItem!: string;
+  public inputSerchText!: string;
+  public moreInfoActive: boolean = false;
+  public postsInputActive: boolean = true;
+  public postsProcessed: number = 0;
 
   private userID!: string;
+  private posts!: IPosts[];
   private subscriptions$: Subject<void> = new Subject<void>();
-  private userInfoBuilder: UserInfoBuilder = new UserInfoBuilder(this.http, this.profileSevice);
+  private userInfoBuilder: UserInfoBuilder = new UserInfoBuilder(this.http, this.profileSevice, this.route);
 
-  constructor(private router: Router, private http: HttpClient, private profileSevice: ProfileService) { };
+  constructor(private router: Router, private http: HttpClient, private profileSevice: ProfileService, private route: Router) { };
 
   ngOnInit() {
+    this.postsItems = VkPostMenuItems;
     this.checkUserToken();
   };
 
@@ -59,6 +67,40 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   public changeActiveMoreInfo(): void {
     this.moreInfoActive = true;
+  }
+
+  public changeModePostsAll(): void {
+    if (this.postsInputActive) {
+      this.activePostsItem = this.postsItems.allPosts;
+      this.postsToShow = this.posts;
+    }
+  }
+
+  public changeModePostsMy(): void {
+    this.activePostsItem = this.postsItems.myPosts;
+    this.postsToShow = [];
+    this.posts.forEach((post: IPosts) => {
+      if (post.fromID === +this.userID)
+        this.postsToShow.push(post)
+    })
+  }
+
+  public changeModePostsArchived(): void {
+    this.activePostsItem = this.postsItems.archivePosts;
+    this.postsToShow = [];
+    this.posts.forEach((post: IPosts) => {
+      if (post.isArchived)
+        this.postsToShow.push(post)
+    })
+  }
+
+  public searchPosts(): void {
+    let searchPosts: IPosts[] = [];
+    this.postsToShow.forEach((post: IPosts) => {
+      if (post.text.includes(this.inputSerchText))
+        searchPosts.push(post)
+    })
+    this.postsToShow = searchPosts;
   }
 
   private checkUserToken(): void {
@@ -118,11 +160,20 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   private getUser(): void {
-    this.userInfoBuilder.buildUserData()
-      .pipe(takeUntil(this.subscriptions$))
-      .subscribe(data => {
-        this.userInfo = data;
+    forkJoin([
+      this.userInfoBuilder.buildUserData(),
+      this.userInfoBuilder.buildPostActivities()
+    ]).pipe(
+      takeUntil(this.subscriptions$)
+    ).subscribe(
+      ([userData, postActivities]) => {
+        if (userData)
+          this.userInfo = userData;
+        this.posts = postActivities;
+        this.activePostsItem = this.postsItems.allPosts;
+        this.postsToShow = this.posts;
         user.userInfo = this.userInfo;
-      });
+      }
+    );
   }
 }
